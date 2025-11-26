@@ -1,0 +1,112 @@
+/* ============================================
+   📄 PAGE
+   Layout estrutural principal da página:
+   limites máximos, margens e espaçamentos
+   do conteúdo, cabeçalho e rodapé.
+   Regras responsivas para diferentes
+   larguras de tela (desktop, tablet e mobile).
+============================================= */
+
+/* ----- Estrutura base ----- */
+
+.page {
+  max-width: 1280px; /* Largura máxima do container */
+  margin: 0 auto; /* Centraliza horizontalmente */
+  font-family: 'Inter', Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  color: #ffffff;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* ----- Blocos internos ----- */
+
+.page__header {
+  display: flex;
+  flex-direction: column;
+  max-width: 880px;
+  margin: 0 auto;
+  padding-top: 45px;
+}
+
+.page__content {
+  max-width: 880px;
+  margin: 0 auto;
+  padding-top: 40px;
+}
+
+.page__form {
+  max-width: 880px;
+  margin: 0 auto;
+  padding-top: 60px;
+}
+
+.page__footer {
+  padding-top: 67px;
+  padding-bottom: 60px;
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+/* ===========================================
+   📱 RESPONSIVIDADE
+=========================================== */
+
+/* ----- TABLET ----- */
+@media screen and (min-width: 641px) and (max-width: 960px) {
+  /*800px*/
+
+  .page {
+    min-width: 641px;
+    max-width: 960px;
+  }
+
+  .page__header {
+    max-width: 660px; /* 880*960 = 1280x, proporcional a 880px em 1280px */
+  }
+
+  .page__content {
+    max-width: 660px;
+  }
+
+  .page__form {
+    max-width: 660px;
+  }
+
+  .page__footer {
+    max-width: 660px;
+  }
+}
+
+/* ----- MOBILE ----- */
+@media screen and (min-width: 320px) and (max-width: 640px) {
+  /*320px*/
+
+  .page {
+    min-width: 320px;
+    max-width: 640px;
+  }
+
+  .page__header {
+    max-width: 440px;
+    padding-top: 28px;
+    min-height: 56px;
+  }
+
+  .page__content {
+    max-width: 440px;
+  }
+
+  .page__form {
+    max-width: 440px;
+  }
+
+  .page__footer {
+    max-width: 440px;
+    padding-bottom: 28px;
+  }
+}

@@ -1,0 +1,57 @@
+/* ===========================================
+   📄 CONTENT
+   Estrutura principal da área de conteúdo:
+   bloco de perfil e seção de cards (elements).
+   Organização e espaçamento entre seções,
+   ajustes responsivos para tablets e mobile.
+============================================ */
+
+/* ===== Estrutura base ===== */
+
+.content__profile {
+  display: flex;
+  align-items: center;
+  max-width: 880px;
+}
+
+.content__elements {
+  padding-top: 50px;
+}
+
+/* ===========================================
+   📱 RESPONSIVIDADE
+=========================================== */
+
+/* ----- TABLET ----- */
+@media screen and (min-width: 641px) and (max-width: 960px) {
+  /*800px*/
+
+  .content__profile {
+    max-width: 660px;
+  }
+
+  .content__elements {
+    justify-self: center;
+    max-width: 660px;
+    display: grid;
+  }
+}
+
+/* ----- MOBILE ----- */
+@media screen and (min-width: 320px) and (max-width: 640px) {
+  /*320*/
+
+  .content__profile {
+    flex-direction: column;
+    justify-content: center;
+    margin: 2px 19px 0; /* Margem superior soma ao espaçamento total de 42px do bloco anterior */
+    max-width: 440px;
+  }
+
+  .content__elements {
+    padding-top: 36px;
+    max-width: 440px;
+    justify-self: center;
+    display: grid;
+  }
+}

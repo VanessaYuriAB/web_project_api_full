@@ -1,0 +1,25 @@
+########################################################
+# 🌍 Regras gerais de formatação e final de linha (EOL)
+########################################################
+
+# Arquivos de texto - garantem consistência entre sistemas
+# operacionais (Windows, Linux, macOS)
+*.js     text eol=lf
+*.jsx    text eol=lf
+*.html   text eol=lf
+*.css    text eol=lf
+*.json   text eol=lf
+*.md     text eol=lf
+*.lock   text eol=lf
+
+# Pequenos binários (ícones e imagens pequenas)
+# Menor que 100 KB - não rastreados por LFS
+*.svg   -text
+*.png   -text
+*.ico   -text
+
+# Fontes tratadas como binários (sem LFS)
+*.ttf   binary
+*.otf   binary
+*.woff  binary
+*.woff2 binary

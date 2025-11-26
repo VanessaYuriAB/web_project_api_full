@@ -1,0 +1,127 @@
+/* ===============================================
+   💬 POPUP
+   Estrutura responsável pela exibição de
+   janelas modais sobre o conteúdo principal.
+   Inclui a camada de fundo semitransparente,
+   o container de conteúdo e o botão de fechar.
+
+   🔹 Bloco principal: .popup
+   🔹 Utiliza modificadores no botão de fechamento:
+      - _card  → popup de imagem
+      - _photo → popup de avatar
+      - _trash → popup de exclusão
+================================================= */
+
+/* ---------------------------------------------
+   🔹 BASE
+   (container principal do popup)
+---------------------------------------------- */
+
+.popup {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+/* ------------------------------------------
+   🧩 ELEMENTOS DO BLOCO
+   (componentes internos do popup)
+------------------------------------------- */
+
+/* ----- CONTEÚDO ----- */
+.popup__content {
+  display: contents; /* permite que o conteúdo filho mantenha o layout original */
+}
+
+/* ----- BOTÃO DE FECHAR ----- */
+.popup__icon-close-btn {
+  width: 40px;
+  height: 40px;
+  background-image: url(/images/close-icon_40.svg);
+  background-position: center;
+  background-size: contain;
+  margin-top: 146.72px;
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+}
+
+.popup__icon-close-btn:hover {
+  opacity: 0.6;
+}
+
+/* -------------------------------------------
+   🎛️ MODIFICADORES
+   (ajustes específicos de posicionamento
+   conforme o tipo de popup)
+-------------------------------------------- */
+
+.popup__icon-close-btn_photo {
+  /* Fechar popup de avatar */
+  margin-top: 176px;
+}
+
+.popup__icon-close-btn_card {
+  /* Fechar popup de imagem */
+  margin-top: 41px;
+}
+
+.popup__icon-close-btn_trash {
+  /* Fechar popup de exclusão */
+  margin-top: 223px;
+}
+
+/* ===========================================
+   📱 RESPONSIVIDADE
+=========================================== */
+
+/* ----- TABLET ----- */
+@media screen and (min-width: 641px) and (max-width: 960px) {
+  /*800px*/
+
+  .popup {
+    max-width: 960px;
+  }
+
+  .popup__icon-close-btn {
+    width: 36px;
+    height: 36px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+}
+
+/* ----- MOBILE ----- */
+@media screen and (min-width: 320px) and (max-width: 640px) {
+  /*320px*/
+
+  .popup {
+    max-width: 640px;
+  }
+
+  .popup__icon-close-btn {
+    width: 26px;
+    height: 26px;
+    background-image: url(/images/close-icon_26.svg);
+    margin-top: 82.62px;
+    position: relative;
+    right: 10px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  .popup__icon-close-btn_card {
+    width: 30px;
+    height: 30px;
+    margin-top: 90px;
+    right: 28px;
+  }
+}

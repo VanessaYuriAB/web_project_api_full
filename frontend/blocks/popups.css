@@ -1,0 +1,272 @@
+/* =================================================
+   📦 FORMULÁRIOS DE POPUP (add, edt, photo e trash)
+   Estrutura e estilos compartilhados.
+   Modificador '_popup': para padronizar os
+   tps de formulários de popup e diferenciar
+   o CSS dos formulários de página, sem
+   interferir no validador de formulários.
+   Bloco principal: .form
+================================================= */
+
+/* ----- FORM ----- */
+.form_popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0px 0px 25px 0px #00000026;
+  width: 430px;
+  height: 330px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #000000;
+  z-index: 2;
+  margin-top: 195px;
+}
+
+/* --------------------------------------------
+   🎨 MODIFICADORES DO BLOCO
+   (variações específicas de popup)
+----------------------------------------------*/
+
+.form_photo {
+  height: 272px;
+  margin-top: 224px;
+  border-width: 1px;
+}
+
+.form_trash {
+  height: 181px;
+  margin-top: 270px;
+}
+
+/* -------------------------------------------
+   🧩 ELEMENTOS DO BLOCO
+   (componentes internos de .form_popup)
+-------------------------------------------- */
+
+/* ----- TITLES ----- */
+.form__title_popup {
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1.21;
+  width: 330px;
+  margin: 34px 0 44px;
+  text-rendering: optimizeLegibility;
+}
+
+.form__title_photo {
+  margin: 34px 0 54px 36px;
+  line-height: 0.96;
+  align-self: flex-start;
+}
+
+.form__title_trash {
+  width: 358px;
+  margin-bottom: 38px;
+  line-height: 0.96;
+}
+
+/* ----- INPUTS ----- */
+.form__input_popup {
+  width: 358px;
+  height: calc(27.26px - (13px + 3px + 1px));
+  font-size: 14px;
+  line-height: 1.21;
+  vertical-align: top;
+  margin: 0;
+  padding: 3px 0 13px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+/* ----- ÚLTIMO INPUT (AJUSTE DE MARGEM PARA SPAN DE ERRO) ----- */
+.form__input_add:last-of-type,
+.form__input_edt:last-of-type {
+  margin-top: 13px;
+}
+
+/* ----- INPUT INVÁLIDO ----- */
+.form__input_popup:invalid {
+  border-bottom: 1px solid #ff0000;
+}
+
+/* ----- INPUT COM PLACEHOLDER VISÍVEL ----- */
+.form__input_popup:placeholder-shown {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.form__input_add:placeholder-shown:last-of-type {
+  margin-top: 30px;
+}
+
+.form__input_edt:first-of-type:valid {
+  margin-bottom: calc(29.74px - 13px);
+}
+
+.form__input_add:first-of-type:valid {
+  margin-bottom: calc(29.74px - 13px - 5px);
+}
+
+.form__input_edt:last-of-type:valid {
+  margin-bottom: calc(48px - 31.34px);
+}
+
+.form__input_popup::placeholder {
+  color: #c4c4c4;
+  font-size: 14px;
+  line-height: 100%;
+}
+
+/* ----- SPANS ----- */
+.form__span_popup {
+  width: 358px;
+  height: 17px;
+  font-size: 12px;
+  line-height: 1;
+  color: #ff0000;
+  align-self: self-start;
+  margin-left: 36px;
+  padding-top: 5px;
+}
+
+/* ----- BUTTON ----- */
+.form__button_popup {
+  margin-top: 31.34px;
+  margin-bottom: 36.51px;
+  width: 358px;
+  min-height: 50.15px;
+  max-height: 50.15px;
+  border-radius: 2px;
+  border: none;
+  background-color: #000000;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.21;
+  text-align: center;
+  color: #ffffff;
+  padding: 4px 0 0;
+}
+
+.form__button_photo {
+  margin-top: 48px;
+}
+
+.form__button_trash {
+  margin-top: 0;
+}
+
+.form__button_photo,
+.form__button_trash {
+  margin-bottom: 36px;
+  min-height: 50px;
+  max-height: 50px;
+  line-height: 1.22;
+}
+
+.form__button_popup:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+/* Aplica o estilo somente ao elemento que tiver ambas as classes ao mesmo tempo. */
+.form__button_popup.form__button_disabled {
+  opacity: 0.2;
+  color: #000000;
+  border: 1px solid #000000;
+  background-color: #ffffff;
+}
+
+/* Aplica o estilo somente ao elemento que tiver ambas as classes ao mesmo tempo. */
+.form__button_add.form__button_disabled {
+  margin-top: 40px;
+}
+
+/* Aplica o estilo somente ao elemento que tiver ambas as classes ao mesmo tempo. */
+.form__button_popup.form__button_disabled:hover {
+  cursor: not-allowed;
+}
+
+/* ===========================================
+   📱 RESPONSIVIDADE
+=========================================== */
+
+/* ----- MOBILE ----- */
+@media screen and (min-width: 320px) and (max-width: 640px) {
+  /*320px*/
+
+  .form_popup {
+    width: 282px;
+    height: 322px;
+    margin-top: 123px;
+    position: relative;
+    left: 15px;
+  }
+
+  .form_photo {
+    height: 230px;
+  }
+
+  .form_trash {
+    height: 145px;
+  }
+
+  .form__title_popup {
+    font-size: 18px;
+    width: 238px;
+    margin: 25px 0 66px;
+  }
+
+  .form__title_photo {
+    margin: 35px 0 40px 23px;
+  }
+
+  .form__title_trash {
+    margin-bottom: 29px;
+  }
+
+  .form__input_popup {
+    width: 238px;
+  }
+
+  .form__input_add:last-of-type,
+  .form__input_edt:last-of-type {
+    margin-top: 13px;
+  }
+
+  .form__input_popup:invalid {
+    border-bottom: 1px solid #ff0000;
+  }
+
+  .form__input_popup:placeholder-shown {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  .form__input_add:first-of-type:valid,
+  .form__input_edt:first-of-type:valid {
+    margin-bottom: calc(29.74px - 13px - 5px);
+  }
+
+  .form__input_add:last-of-type:valid,
+  .form__input_edt:last-of-type:valid {
+    margin-bottom: calc(48px - 31.34px - 5px);
+  }
+
+  .form__span_popup {
+    width: 238px;
+    font-size: 10px;
+    line-height: 100%;
+    margin-left: 22px;
+  }
+
+  .form__button_popup {
+    margin-top: 31.34px;
+    margin-bottom: 25px;
+    width: 238px;
+    height: 46px;
+    font-size: 14px;
+  }
+
+  .form__button_trash {
+    margin-top: 0;
+  }
+}

@@ -1,0 +1,225 @@
+/* ===========================================
+   📝 FORMULÁRIOS DE PÁGINA (register e login)
+   Modificador '_page': para padronizar os
+   dois formulários de página e diferenciar
+   o CSS dos formulários de popup, sem
+   interferir no validador de formulários.
+   Bloco principal: .form
+============================================ */
+
+/* ----- FORM ----- */
+.form_page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* -------------------------------------------
+   🧩 ELEMENTOS DO BLOCO
+   (componentes internos de .form__page)
+-------------------------------------------- */
+
+/* ----- TÍTULO ----- */
+.form__title_page {
+  margin: 0;
+  width: 358px;
+  opacity: 1;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+  text-rendering: optimizeLegibility;
+}
+
+/* ----- INPUTS ----- */
+.form__input_page {
+  width: 358px;
+  height: calc(27.26px - (13px + 3px + 2px));
+  opacity: 1;
+  border-bottom: 2px solid #cccccc;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0;
+  vertical-align: top;
+  margin: 50px 0 0;
+  padding: 3px 0 13px;
+  border: none;
+  background-color: #000;
+  color: #fff;
+}
+
+/* ----- ÚLTIMO INPUT (AJUSTE DE MARGEM PARA SPAN DE ERRO) ----- */
+.form__input_page:last-of-type {
+  margin-top: calc(30px - 17px);
+}
+
+/* ----- INPUT VÁLIDO ----- */
+.form__input_page:valid {
+  border-bottom: 2px solid #fff;
+}
+
+/* ----- INPUT INVÁLIDO ----- */
+.form__input_page:invalid {
+  border-bottom: 2px solid #ff0000;
+}
+
+/* ----- INPUT COM PLACEHOLDER VISÍVEL ----- */
+.form__input_page:placeholder-shown {
+  border-bottom: 2px solid #fff;
+}
+
+/* ----- INPUT COM PLACEHOLDER VISÍVEL (ÚLTIMO INPUT) ----- */
+.form__input_page:placeholder-shown:last-of-type {
+  margin-top: calc(30px - 17px);
+}
+
+/* ----- PLACEHOLDER ----- */
+.form__input_page::placeholder {
+  color: #fff;
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* ----- SPAN DE MENSAGEM DE ERRO ----- */
+.form__span_page {
+  /* configuração dos spans copiadas dos spans dos forms de popup */
+  width: 358px;
+  height: 17px;
+  font-size: 12px;
+  line-height: 1;
+  color: #ff0000;
+  margin: 0;
+  padding-top: 5px;
+}
+
+/* ----- BOTÃO ----- */
+.form__button_page {
+  margin: 0;
+  margin-top: calc(
+    216px - 17px - 5px
+  ); /* margem total do elemento menos a altura do span anterior */
+  width: 358px;
+  min-height: 50px;
+  max-height: 50px;
+  opacity: 1;
+  border-radius: 2px;
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.form__button_page:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+/* Aplica o estilo somente ao elemento que tiver ambas as classes ao mesmo tempo. */
+.form__button_page.form__button_disabled {
+  opacity: 0.2;
+  color: #000;
+  border: 2px solid #000000;
+  background-color: #fff;
+}
+
+/* Aplica o estilo somente ao elemento que tiver ambas as classes ao mesmo tempo. */
+.form__button_page.form__button_disabled:hover {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+/* ----- TEXTO ----- */
+.form__text_page {
+  margin: 15px 0 0;
+  width: 358px;
+  height: 17px;
+  opacity: 1;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+/* ----- LINK DO TEXTO ----- */
+.form__link_page {
+  margin-left: 0.25rem; /* espaço entre o texto e o link */
+  color: #fff;
+  text-decoration: none;
+}
+
+.form__link_page:hover {
+  opacity: 0.8;
+}
+
+/* ===========================================
+   📱 RESPONSIVIDADE
+=========================================== */
+
+/* ----- MOBILE ----- */
+@media screen and (min-width: 320px) and (max-width: 640px) {
+  /*320px*/
+
+  .form_page {
+    width: 260px;
+    margin: 0 auto;
+    padding-top: 40px;
+  }
+
+  .form__title_page {
+    font-size: 20px;
+    width: 260px;
+    min-height: 48px;
+    max-height: 48px;
+    margin: 0;
+  }
+
+  .form__input_page {
+    width: 260px;
+    margin-top: 16px;
+    padding-top: 2px;
+    height: calc(
+      27px - (13px + 2px + 2px)
+    ); /* altura total, menos padding inferior somado ao padding superior e borda inferior */
+  }
+
+  /* ----- ÚLTIMO INPUT (AJUSTE DE MARGEM PARA SPAN DE ERRO) ----- */
+  .form__input_page:last-of-type {
+    margin-top: calc(
+      30px - (17px + 5px)
+    ); /* margem total, menos altura do span somado com padding-top */
+  }
+
+  /* ----- INPUT COM PLACEHOLDER VISÍVEL (ÚLTIMO INPUT) ----- */
+  .form__input_page:placeholder-shown:last-of-type {
+    margin-top: calc(
+      30px - (17px + 5px)
+    ); /* margem total, menos altura do span somado com padding-top */
+  }
+
+  .form__span_page {
+    width: 260px;
+    font-size: 10px;
+    line-height: 1;
+    margin-left: 22px;
+  }
+
+  .form__button_page {
+    width: 260px;
+    min-height: 46px;
+    max-height: 46px;
+    margin: 0;
+    margin-top: calc(
+      173px - (17px + 5px)
+    ); /* margem total subtraída a altura total do span, inclusive o padding */
+    font-size: 16px;
+  }
+
+  .form__text_page {
+    width: 260px;
+    min-height: 15px;
+    max-height: 15px;
+    margin-top: 20px;
+    font-size: 12px;
+  }
+}

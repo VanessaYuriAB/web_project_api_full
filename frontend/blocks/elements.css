@@ -1,0 +1,45 @@
+/* ============================================
+   🧱 ELEMENTS
+   Container responsável por agrupar e exibir
+   os cards em formato de grade (grid layout).
+   Bloco principal: .elements
+============================================ */
+
+/* ----- LISTA DE CARDS ----- */
+
+.elements__cards {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(3, 282px);
+  grid-template-rows: auto;
+  gap: 20px 17px;
+  max-width: 880px;
+}
+
+/* ===========================================
+   📱 RESPONSIVIDADE
+=========================================== */
+
+/* ----- TABLET ----- */
+@media screen and (min-width: 641px) and (max-width: 960px) {
+  /*800px*/
+
+  .elements__cards {
+    grid-template-columns: repeat(2, 282px);
+    gap: 20px 17px;
+    max-width: 100%;
+  }
+}
+
+/* ----- MOBILE ----- */
+@media screen and (min-width: 320px) and (max-width: 640px) {
+  /*320*/
+
+  .elements__cards {
+    grid-template-columns: 282px;
+    row-gap: 20px;
+    max-width: 100%;
+  }
+}

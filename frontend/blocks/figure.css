@@ -1,0 +1,52 @@
+/* ============================================
+   🖼️ FIGURE
+   Estrutura responsável por exibir a imagem
+   em destaque dentro do popup de visualização.
+   Bloco principal: .figure
+============================================= */
+
+/* ----- BASE ----- */
+.figure {
+  margin: 90px 0 0 40px;
+  height: max-content;
+}
+
+/* ===========================================
+   🧩 ELEMENTOS DO BLOCO
+   (componentes internos da figure)
+=========================================== */
+
+/* ----- IMAGEM ----- */
+.figure__image {
+  max-width: 75vw;
+  max-height: 75vh;
+  margin-bottom: 10px;
+}
+
+/* ----- LEGENDA ----- */
+.figure__caption {
+  font-size: 12px;
+  line-height: 100%;
+}
+
+/* ===========================================
+   📱 RESPONSIVIDADE
+=========================================== */
+
+/* ----- TABLET ----- */
+@media screen and (min-width: 641px) and (max-width: 960px) {
+  /*800px*/
+
+  .figure {
+    margin: 90px 0 0 36px;
+  }
+}
+
+/* ----- MOBILE ----- */
+@media screen and (min-width: 320px) and (max-width: 640px) {
+  /*320px*/
+
+  .figure {
+    margin: 136px 0 0 26px;
+  }
+}

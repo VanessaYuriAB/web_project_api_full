@@ -1,0 +1,75 @@
+/* ===========================================
+   ⚙️ LOADING-SCREEN
+   Tela de carregamento exibida durante a
+   verificação de autenticação do usuário
+============================================ */
+
+/* ----- Estrutura base ----- */
+
+.loading-screen {
+  /* ----- Layout geral ----- */
+  max-width: 1280px;
+  margin: 0 auto;
+
+  /* ----- Tipografia e renderização ----- */
+  font-family: 'Inter', Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  color: #ffffff;
+
+  /* ----- Box model ----- */
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* ----- Bloco interno ----- */
+
+.loading-text {
+  font-size: 25px;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 100px;
+
+  /* ----- Animação ----- */
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+/* ===========================================
+   ANIMAÇÃO: fadeIn
+   Transição suave de opacidade para o texto
+============================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ===========================================
+   📱 RESPONSIVIDADE
+=========================================== */
+
+/* ----- TABLET ----- */
+@media screen and (min-width: 641px) and (max-width: 960px) {
+  /*800px*/
+  .loading-text {
+    font-size: 20px;
+    margin-top: 80px;
+  }
+}
+
+/* ----- MOBILE ----- */
+@media screen and (min-width: 320px) and (max-width: 640px) {
+  /*320px*/
+  .loading-text {
+    font-size: 16px;
+    margin-top: 60px;
+  }
+}

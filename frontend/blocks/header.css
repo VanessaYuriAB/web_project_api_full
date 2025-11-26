@@ -1,0 +1,138 @@
+/* =========================================
+   📄 HEADER
+   Estilos principais do cabeçalho:
+   variações para páginas de registro
+   e login, configuração do logotipo,
+   texto, links e linha decorativa inferior.
+   Regras responsivas para telas menores.
+========================================== */
+
+/* ----- Modificadores de layout ----- */
+
+.header_register,
+.header_login {
+  height: 74px;
+}
+
+/* ------- Elementos internos -------- */
+
+.header__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.header__img-logo {
+  max-width: 173px;
+  max-height: 33px;
+}
+
+.header__log {
+  display: flex;
+}
+
+.header__link-login,
+.header__email,
+.header__link-logout {
+  margin-top: calc(51px - 45px);
+  font-size: 18px;
+  line-height: 1.22;
+  letter-spacing: 0;
+  text-align: right;
+}
+
+.header__link-login,
+.header__link-logout {
+  text-decoration: none;
+  color: #fff;
+}
+
+.header__link-login:hover,
+.header__link-logout:hover {
+  opacity: 0.8;
+}
+
+.header__email {
+  margin: 0;
+  margin-right: 56px;
+  font-weight: 500;
+}
+
+.header__link-logout {
+  margin: 0;
+}
+
+/* ------- Linha decorativa ------- */
+
+.header__img-line {
+  max-width: 880px;
+  margin-top: 40px;
+}
+
+/* ===========================================
+   📱 RESPONSIVIDADE
+=========================================== */
+
+/* ----- TABLET ----- */
+@media screen and (min-width: 641px) and (max-width: 960px) {
+  /*800px*/
+
+  .header__container {
+    width: 600px;
+    margin: 0 auto;
+  }
+
+  .header__link-login,
+  .header__email,
+  .header__link-logout {
+    font-size: 16px;
+  }
+}
+
+/* ----- MOBILE ----- */
+@media screen and (min-width: 320px) and (max-width: 640px) {
+  /*320px*/
+
+  .header__container {
+    width: 320px;
+    margin: 0 auto;
+  }
+
+  .header__img-logo {
+    max-width: 126px;
+    max-height: 24px;
+  }
+
+  .header__log {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+  }
+
+  .header__link-login,
+  .header__email,
+  .header__link-logout {
+    font-size: 14px;
+    line-height: 1.57;
+  }
+
+  .header__email {
+    margin: 0;
+    min-width: 142px;
+    height: 22px;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .header__link-logout {
+    margin: 0;
+    width: 33px;
+    height: 22px;
+  }
+
+  .header__img-line {
+    max-width: 440px;
+    margin-top: 31px;
+  }
+}

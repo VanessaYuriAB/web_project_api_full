@@ -1,0 +1,33 @@
+# LOGS
+# Arquivos de log gerados pela aplicação ou por ferramentas
+logs
+*.log
+npm-debug.log*
+
+# DEPENDÊNCIAS
+# Diretório de dependências do Node.js
+node_modules/
+
+# CACHE E GERENCIADORES DE PACOTE
+# Diretório de cache npm opcional
+.npm
+
+# BUILD E ARTEFATOS
+# Pastas geradas por processos de build/transpilação
+dist/
+build/
+
+# ARQUIVOS TEMPORÁRIOS
+# Pastas e arquivos temporários
+.tmp/
+temp/
+
+# ARQUIVOS DO SISTEMA
+# Arquivos de sistema criados automaticamente (macOS e Windows)
+.DS_Store
+Thumbs.db
+
+# CONFIGURAÇÕES DE IDE
+# Pastas e arquivos gerados por IDEs
+.idea/
+.vscode/

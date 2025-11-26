@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        connect-src 'self' https://around-api.pt-br.tripleten-services.com https://se-register-api.en.tripleten-services.com;
+        img-src 'self' data: https:;
+        script-src 'self';
+        style-src 'self' 'unsafe-inline';
+      "
+    />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Vanessa Yuri A. Brito" />
+    <meta
+      name="description"
+      content="EUA Afora é uma página web interativa onde os usuários podem adicionar, remover ou curtir fotos."
+    />
+    <title>EUA Afora</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

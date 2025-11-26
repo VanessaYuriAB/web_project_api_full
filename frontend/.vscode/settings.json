@@ -1,0 +1,32 @@
+{
+  "editor.formatOnSave": true,
+  "files.autoSave": "off",
+  "files.eol": "\n", // Define o final de linha como LF (Unix) para evitar problemas de formatação em sistemas diferentes
+
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit" // ESLint: valida JS e JSX, corrige no save: aplica correções automáticas quando são salvos, manualmente, arquivos JS/JSX
+    }
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit" // ESLint: valida JS e JSX, corrige no save: aplica correções automáticas quando são salvos, manualmente, arquivos JS/JSX
+    }
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
+
+// OBS: JSON não suporta comentários oficialmente - se for JSON puro, vai dar erro - settings.json do VSCode aceita comentários (por ser JSONC - JSON com comentários).
