@@ -63,9 +63,9 @@ app.use((req, res) => {
 // Conexão com MongoDB
 // ------------------------
 
-mongoose.connect('mongodb://localhost:27017/aroundb')
+mongoose.connect(`mongodb+srv://emaildavanessayuri_db_user:${process.env.MONGO_PWD}@clusteraroundfull.buacevu.mongodb.net/?appName=ClusterAroundFull`)
   .then(() => {
-    console.log('Connected to MongoDB');
+    console.log('Connected to MongoDB Atlas, o nome do banco do dados é "teste"');
   })
   .catch((err) => {
     console.error('Error connecting to MongoDB:', err);
