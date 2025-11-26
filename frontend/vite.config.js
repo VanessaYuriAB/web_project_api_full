@@ -9,7 +9,7 @@ import path from 'path';
 
 // Exporta a configuração do Vite
 // Recebe o "mode" (desenvolvimento ou produção) como parâmetro
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   // Plugins usados no projeto
   plugins: [react()],
 
@@ -27,21 +27,13 @@ export default defineConfig(({ mode }) => ({
 
   // Configuração do servidor de desenvolvimento
   server: {
-    port: 3000, // porta do dev server
+    port: 3001, // porta do dev server para o front, já que o back usa a 3000
     open: true, // abre o navegador automaticamente ao iniciar o servidor
   },
 
-  // Base path do projeto
-  base:
-    mode === 'production'
-      ? '/web_project_around_auth/' // para produção, ex: GitHub Pages, ou npm run build/preview > nome exato do repositório no GitHub
-      : '/', // para desenvolvimento local (no npm run dev)
-
-  // Configuração do build (geração de arquivos finais)
+  // Configuração do build (geração de arquivos finais para deploy)
   build: {
-    outDir: 'docs', // onde o Vite colocará os arquivos após o build (padrão é "dist",
-    // mas para rodar no GitHub Pages sem deploy, há a opção de gerar a partir de docs,
-    // no próprio GitHub)
+    outDir: 'dist', // onde o Vite colocará os arquivos após o build (padrão é "dist")
     assetsDir: 'assets', // subpasta para arquivos estáticos (JS, CSS, imagens, etc.)
   },
-}));
+});

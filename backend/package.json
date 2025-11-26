@@ -2,7 +2,12 @@
   "name": "web_project_around_express",
   "version": "1.0.0",
   "description": "Back-end focused on creating a server for the Around The U.S. Project",
+
   "main": "app.js",
+  "engines": {
+    "node": ">=22.15.0"
+  },
+
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
@@ -10,6 +15,19 @@
     "lint": "npx eslint .",
     "lint:fix": "eslint . --ext js,jsx --fix"
   },
+
+  "dependencies": {
+    "express": "5.1.0",
+    "mongoose": "8.18.0"
+  },
+  "devDependencies": {
+    "eslint": "8.56.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-plugin-import": "2.32.0",
+    "nodemon": "3.1.10",
+    "open": "7.4.2"
+  },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/VanessaYuriAB/web_project_around_express.git"
@@ -36,19 +54,5 @@
   "bugs": {
     "url": "https://github.com/VanessaYuriAB/web_project_around_express/issues"
   },
-  "homepage": "https://github.com/VanessaYuriAB/web_project_around_express#readme",
-  "devDependencies": {
-    "eslint": "8.56.0",
-    "eslint-config-airbnb-base": "15.0.0",
-    "eslint-plugin-import": "2.32.0",
-    "nodemon": "3.1.10",
-    "open": "7.4.2"
-  },
-  "dependencies": {
-    "express": "5.1.0",
-    "mongoose": "8.18.0"
-  },
-  "engines": {
-    "node": "^22.15.0"
-  }
+  "homepage": "https://github.com/VanessaYuriAB/web_project_around_express#readme"
 }
