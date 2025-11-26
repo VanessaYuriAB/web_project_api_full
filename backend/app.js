@@ -2,8 +2,12 @@ const express = require('express');
 
 const mongoose = require('mongoose');
 
+const dotenv = require('dotenv');
+
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
+
+dotenv.config();
 
 const app = express();
 const { PORT = 3000 } = process.env;
