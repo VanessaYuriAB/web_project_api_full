@@ -31,3 +31,6 @@ Thumbs.db
 # Pastas e arquivos gerados por IDEs
 .idea/
 .vscode/
+
+# DADOS SENSÍVEIS
+.env
