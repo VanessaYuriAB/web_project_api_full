@@ -96,10 +96,32 @@ const updateAvatar = async (req, res) => {
   res.send({ data: updatedUser });
 };
 
+// Controlador de autenticação
+const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  const userEmail = await User.findOne({ email }).orFail(() => {
+    const err = new Error('E-mail ou senha incorretos');
+    err.name = 'Unauthorized';
+    throw err;
+  });
+
+  const matchedUser = await bcrypt.compare(password, userEmail.password);
+
+  if (!matchedUser) {
+    const err = new Error('E-mail ou senha incorretos');
+    err.name = 'Unauthorized';
+    throw err;
+  }
+
+  res.send({ message: 'Matched!' });
+};
+
 module.exports = {
   getUsers: handleAsync(getUsers),
   getUserById: handleAsync(getUserById),
   createUser: handleAsync(createUser),
   updateUser: handleAsync(updateUser),
   updateAvatar: handleAsync(updateAvatar),
+  login: handleAsync(login),
 };

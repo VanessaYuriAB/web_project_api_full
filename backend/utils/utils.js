@@ -2,6 +2,7 @@
 const ERROR_CODES = {
   BAD_REQUEST_VALIDATION: 400,
   BAD_REQUEST_CAST: 400,
+  UNAUTHORIZED: 401,
   NOT_FOUND: 404,
   CONFLICT: 409,
   INTERNAL_SERVER: 500,
@@ -26,6 +27,15 @@ function mapError(err) {
       statusCode: ERROR_CODES.BAD_REQUEST_CAST,
       name: 'CastError',
       message: 'Ocorreu um erro: _id inválido ou incompleto passado ao método',
+    };
+  }
+
+  // Erros de autorização → 401
+  if (err.name === 'Unauthorized') {
+    return {
+      statusCode: ERROR_CODES.UNAUTHORIZED,
+      name: 'Unauthorized',
+      message: err.message || 'Não autorizado',
     };
   }
 
