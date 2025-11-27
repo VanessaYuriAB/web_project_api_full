@@ -24,8 +24,14 @@ const getUserById = async (req, res) => {
 // O manipulador de solicitação createUser
 // Erros: Validation ou Internal server
 const createUser = async (req, res) => {
-  const { name, about, avatar } = req.body;
-  const user = await User.create({ name, about, avatar });
+  const { name, about, avatar, email, password } = req.body;
+  const user = await User.create({
+    name,
+    about,
+    avatar,
+    email,
+    password,
+  });
   res.status(201).send({ data: user });
 };
 
