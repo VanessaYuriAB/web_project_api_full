@@ -30,6 +30,13 @@ const getUserById = async (req, res) => {
 const createUser = async (req, res) => {
   const { name, about, avatar, email, password } = req.body;
 
+  // Validação básica para reforço de segurança
+  if (!email || !password) {
+    const err = new Error('Email e senha são obrigatórios');
+    err.name = 'ValidationError';
+    throw err;
+  }
+
   // codificando o hash da senha
   const hash = await bcrypt.hash(password, 10);
 
@@ -42,8 +49,6 @@ const createUser = async (req, res) => {
   });
 
   res.status(201).send({ data: user });
-
-  // .catch((err) => res.status(400).send(err)); > da função do bcrypt.hash > precisa adicionar no fluxo de erros ou adicionar algum throw?
 };
 
 // O manipulador de solicitação updateUser
@@ -83,7 +88,6 @@ const updateAvatar = async (req, res) => {
 };
 
 module.exports = {
-  handleAsync,
   getUsers: handleAsync(getUsers),
   getUserById: handleAsync(getUserById),
   createUser: handleAsync(createUser),
