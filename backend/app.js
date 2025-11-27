@@ -56,16 +56,23 @@ app.use('/cards', cardsRouter);
 
 // Middleware para erros 404 - rotas não encontradas
 app.use((req, res) => {
-  res.status(404).send({ message: 'A página não foi encontrada, é um endereço inexistente' });
+  res.status(404).send({
+    message: 'A página não foi encontrada, é um endereço inexistente',
+  });
 });
 
 // ------------------------
 // Conexão com MongoDB
 // ------------------------
 
-mongoose.connect(`mongodb+srv://emaildavanessayuri_db_user:${process.env.MONGO_PWD}@clusteraroundfull.buacevu.mongodb.net/?appName=ClusterAroundFull`)
+mongoose
+  .connect(
+    `mongodb+srv://emaildavanessayuri_db_user:${process.env.MONGO_PWD}@clusteraroundfull.buacevu.mongodb.net/?appName=ClusterAroundFull`,
+  )
   .then(() => {
-    console.log('Connected to MongoDB Atlas, o nome do banco do dados é "teste"');
+    console.log(
+      'Connected to MongoDB Atlas, o nome do banco do dados é "teste"',
+    );
   })
   .catch((err) => {
     console.error('Error connecting to MongoDB:', err);

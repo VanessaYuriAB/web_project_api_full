@@ -13,7 +13,8 @@ function mapError(err) {
     return {
       statusCode: ERROR_CODES.BAD_REQUEST_VALIDATION,
       name: 'ValidationError',
-      message: 'Ocorreu um erro: dado(s) inválido(s) ou inexistente(s) passado(s) ao método',
+      message:
+        'Ocorreu um erro: dado(s) inválido(s) ou inexistente(s) passado(s) ao método',
     };
   }
 

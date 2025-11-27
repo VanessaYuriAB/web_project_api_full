@@ -11,7 +11,9 @@
     "dev": "nodemon app.js",
     "dev:open": "node -e \"require('open')('http://localhost:3000')\" && npm run dev",
     "lint": "npx eslint .",
-    "lint:fix": "eslint . --ext js,jsx --fix"
+    "lint:fix": "eslint . --ext js,jsx --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "dotenv": "17.2.3",
@@ -20,11 +22,14 @@
     "validator": "13.15.23"
   },
   "devDependencies": {
-    "eslint": "8.56.0",
-    "eslint-config-airbnb-base": "15.0.0",
-    "eslint-plugin-import": "2.32.0",
-    "nodemon": "3.1.10",
-    "open": "7.4.2"
+    "eslint": "^8.56.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.4",
+    "nodemon": "^3.1.10",
+    "open": "^7.4.2",
+    "prettier": "^3.7.0"
   },
   "repository": {
     "type": "git",

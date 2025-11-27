@@ -14,7 +14,9 @@ const getUsers = async (req, res) => {
 const getUserById = async (req, res) => {
   const { userId } = req.params;
   const user = await User.findById(userId).orFail(() => {
-    const err = new Error('Erro ao localizar usuário, Recurso não encontrado: não existe usuário com o id solicitado');
+    const err = new Error(
+      'Erro ao localizar usuário, Recurso não encontrado: não existe usuário com o id solicitado',
+    );
     err.name = 'NotFoundError';
     throw err;
   });
@@ -44,7 +46,9 @@ const updateUser = async (req, res) => {
     { name, about },
     { new: true, runValidators: true },
   ).orFail(() => {
-    const err = new Error('Erro ao atualizar usuário, Recurso não encontrado: não existe usuário com o id solicitado');
+    const err = new Error(
+      'Erro ao atualizar usuário, Recurso não encontrado: não existe usuário com o id solicitado',
+    );
     err.name = 'NotFoundError';
     throw err;
   });
@@ -60,7 +64,9 @@ const updateAvatar = async (req, res) => {
     { avatar },
     { new: true, runValidators: true },
   ).orFail(() => {
-    const err = new Error('Erro ao atualizar avatar, Recurso não encontrado: não existe usuário com o id solicitado');
+    const err = new Error(
+      'Erro ao atualizar avatar, Recurso não encontrado: não existe usuário com o id solicitado',
+    );
     err.name = 'NotFoundError';
     throw err;
   });

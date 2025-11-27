@@ -1,6 +1,7 @@
 {
   // Use Airbnb style guide as base for Node.js environment
-  "extends": "airbnb-base",
+  // Configure Prettier along with ESLint to avoid rule conflicts
+  "extends": ["airbnb-base", "plugin:prettier/recommended"],
   // Override specific rules to fit project needs
   "rules": {
     // Disable no-console rule to allow console statements, useful for debugging

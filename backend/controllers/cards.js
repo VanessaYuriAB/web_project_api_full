@@ -24,7 +24,9 @@ const createCard = async (req, res) => {
 const deleteCardById = async (req, res) => {
   const { cardId } = req.params;
   const cardToDelete = await Card.findByIdAndDelete(cardId).orFail(() => {
-    const err = new Error('Erro ao deletar cartão, Recurso não encontrado: não existe cartão com o id solicitado');
+    const err = new Error(
+      'Erro ao deletar cartão, Recurso não encontrado: não existe cartão com o id solicitado',
+    );
     err.name = 'NotFoundError';
     throw err;
   });
@@ -41,7 +43,9 @@ const likeCard = async (req, res) => {
     { $addToSet: { likes: req.user._id } },
     { new: true, runValidators: true },
   ).orFail(() => {
-    const err = new Error('Erro ao curtir cartão, Recurso não encontrado: não existe cartão com o id solicitado');
+    const err = new Error(
+      'Erro ao curtir cartão, Recurso não encontrado: não existe cartão com o id solicitado',
+    );
     err.name = 'NotFoundError';
     throw err;
   });
@@ -58,7 +62,9 @@ const unlikeCard = async (req, res) => {
     { $pull: { likes: req.user._id } },
     { new: true },
   ).orFail(() => {
-    const err = new Error('Erro ao descurtir cartão, Recurso não encontrado: não existe cartão com o id solicitado');
+    const err = new Error(
+      'Erro ao descurtir cartão, Recurso não encontrado: não existe cartão com o id solicitado',
+    );
     err.name = 'NotFoundError';
     throw err;
   });
