@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs');
+
 const User = require('../models/user');
 
 const { handleAsync } = require('../utils/utils');
@@ -27,14 +29,21 @@ const getUserById = async (req, res) => {
 // Erros: Validation ou Internal server
 const createUser = async (req, res) => {
   const { name, about, avatar, email, password } = req.body;
+
+  // codificando o hash da senha
+  const hash = await bcrypt.hash(password, 10);
+
   const user = await User.create({
     name,
     about,
     avatar,
     email,
-    password,
+    password: hash, // adicionando o hash ao banco de dados
   });
+
   res.status(201).send({ data: user });
+
+  // .catch((err) => res.status(400).send(err)); > da função do bcrypt.hash > precisa adicionar no fluxo de erros ou adicionar algum throw?
 };
 
 // O manipulador de solicitação updateUser
