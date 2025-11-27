@@ -5,25 +5,26 @@ const isEmail = require('validator/lib/isEmail');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
     minlength: 2,
     maxlength: 30,
+    default: 'Jacques Cousteau',
   },
   about: {
     type: String,
-    required: true,
     minlength: 2,
     maxlength: 30,
+    default: 'Explorer',
   },
   avatar: {
     type: String,
-    required: true,
     validate: {
       validator(v) {
         return /^(https?:\/\/)(www\.)?\S+(\/\S+)*(\/)?#?$/.test(v);
       },
       message: (props) => `${props.value} is not a valid URL!`,
     },
+    default:
+      'https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg',
   },
   email: {
     type: String,
