@@ -3,6 +3,7 @@ const ERROR_CODES = {
   BAD_REQUEST_VALIDATION: 400,
   BAD_REQUEST_CAST: 400,
   NOT_FOUND: 404,
+  CONFLICT: 409,
   INTERNAL_SERVER: 500,
 };
 
@@ -34,6 +35,15 @@ function mapError(err) {
       statusCode: ERROR_CODES.NOT_FOUND,
       name: 'NotFoundError',
       message: err.message || 'Recurso não encontrado',
+    };
+  }
+
+  // Conflito de índice único (e-mail duplicado), o MongoDB lança erro com code: 11000 → 409
+  if (err.name === 'Conflict') {
+    return {
+      statusCode: ERROR_CODES.CONFLICT,
+      name: 'Conflict',
+      message: err.message || 'O recurso já existe',
     };
   }
 

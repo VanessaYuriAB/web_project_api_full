@@ -26,7 +26,7 @@ const getUserById = async (req, res) => {
 };
 
 // O manipulador de solicitação createUser
-// Erros: Validation ou Internal server
+// Erros: Validation, Conflict ou Internal server
 const createUser = async (req, res) => {
   const { name, about, avatar, email, password } = req.body;
 
@@ -34,6 +34,15 @@ const createUser = async (req, res) => {
   if (!email || !password) {
     const err = new Error('Email e senha são obrigatórios');
     err.name = 'ValidationError';
+    throw err;
+  }
+
+  // Verificação de duplicidade de e-mail
+  const duplicateEmail = await User.findOne({ email });
+
+  if (duplicateEmail) {
+    const err = new Error('E-mail já cadastrado');
+    err.name = 'Conflict';
     throw err;
   }
 
