@@ -82,4 +82,4 @@ function handleAsync(controllerFn) {
   };
 }
 
-module.exports = { handleAsync };
+module.exports = { handleAsync, handleError };
