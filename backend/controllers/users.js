@@ -1,5 +1,7 @@
 const bcrypt = require('bcryptjs');
 
+const jwt = require('jsonwebtoken');
+
 const User = require('../models/user');
 
 const { handleAsync } = require('../utils/utils');
@@ -103,7 +105,15 @@ const login = async (req, res) => {
   const userInDB = await User.findUserByCredentials(email, password);
 
   // Autenticação bem-sucedida: o usuário está disponível na variável `userInDB`
-  res.send({ message: 'Login realizado com sucesso', userInDB });
+  console.log(`Login realizado com sucesso, ${userInDB}`);
+
+  // Geração do JWT para manter usuários logados após autenticação, com expiração em uma semana
+  const token = jwt.sign({ _id: userInDB._id }, 'secret-key', {
+    expiresIn: '7d',
+  });
+
+  // Retornando o token JWT
+  res.send({ token });
 };
 
 module.exports = {
