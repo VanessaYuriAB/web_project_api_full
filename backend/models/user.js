@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 const isEmail = require('validator/lib/isEmail');
 
+const bcrypt = require('bcryptjs');
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -41,5 +43,28 @@ const userSchema = new mongoose.Schema({
     minlength: 8, // conforme está na msg de erro do input, no frontend
   },
 });
+
+// Método personalizado do Mongoose, definido na propriedade statics (estáticos) do esquema: encontre o usuário pelas credenciais
+userSchema.statics.findUserByCredentials = async function findUserByCredentials(
+  email,
+  password,
+) {
+  const userInDB = await this.findOne({ email }).orFail(() => {
+    const err = new Error('E-mail ou senha incorretos');
+    err.name = 'Unauthorized';
+    throw err;
+  });
+
+  const matchedUser = await bcrypt.compare(password, userInDB.password);
+
+  if (!matchedUser) {
+    const err = new Error('E-mail ou senha incorretos');
+    err.name = 'Unauthorized';
+    throw err;
+  }
+
+  // Autenticação bem-sucedida: retorna o objeto do usuário no banco de dados
+  return userInDB;
+};
 
 module.exports = mongoose.model('user', userSchema);

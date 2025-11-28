@@ -100,21 +100,10 @@ const updateAvatar = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  const userEmail = await User.findOne({ email }).orFail(() => {
-    const err = new Error('E-mail ou senha incorretos');
-    err.name = 'Unauthorized';
-    throw err;
-  });
+  const userInDB = await User.findUserByCredentials(email, password);
 
-  const matchedUser = await bcrypt.compare(password, userEmail.password);
-
-  if (!matchedUser) {
-    const err = new Error('E-mail ou senha incorretos');
-    err.name = 'Unauthorized';
-    throw err;
-  }
-
-  res.send({ message: 'Matched!' });
+  // Autenticação bem-sucedida: o usuário está disponível na variável `userInDB`
+  res.send({ message: 'Login realizado com sucesso', userInDB });
 };
 
 module.exports = {
