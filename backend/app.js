@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 
 const dotenv = require('dotenv');
 
+const { createUser, login } = require('./controllers/users');
+
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 
@@ -48,6 +50,11 @@ app.use((req, res, next) => {
 // ------------------------
 // Rotas
 // ------------------------
+
+// Rota para cadastro
+app.post('/signup', createUser);
+// Rota para login
+app.post('/signin', login);
 
 // Rota que define o prefixo /users
 app.use('/users', usersRouter);
