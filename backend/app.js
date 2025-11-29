@@ -6,6 +6,8 @@ const dotenv = require('dotenv');
 
 const { createUser, login } = require('./controllers/users');
 
+const auth = require('./middleware/auth');
+
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 
@@ -47,14 +49,21 @@ app.use((req, res, next) => {
   next();
 });
 
-// ------------------------
-// Rotas
-// ------------------------
+// -------------------------------------
+// Rotas que não precisam de autorização
+// -------------------------------------
 
 // Rota para cadastro
 app.post('/signup', createUser);
 // Rota para login
 app.post('/signin', login);
+
+// Middleware de autorização para persistência do login
+app.use(auth);
+
+// ---------------------------------
+// Rotas que precisam de autorização
+// ---------------------------------
 
 // Rota que define o prefixo /users
 app.use('/users', usersRouter);
