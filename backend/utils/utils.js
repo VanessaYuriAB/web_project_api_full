@@ -3,6 +3,7 @@ const ERROR_CODES = {
   BAD_REQUEST_VALIDATION: 400,
   BAD_REQUEST_CAST: 400,
   UNAUTHORIZED: 401,
+  FORBIDDEN: 403,
   NOT_FOUND: 404,
   CONFLICT: 409,
   INTERNAL_SERVER: 500,
@@ -36,6 +37,16 @@ function mapError(err) {
       statusCode: ERROR_CODES.UNAUTHORIZED,
       name: 'Unauthorized',
       message: err.message || 'Não autorizado',
+    };
+  }
+
+  // Erros de acesso → 403
+  if (err.name === 'Forbidden') {
+    return {
+      statusCode: ERROR_CODES.FORBIDDEN,
+      name: 'Forbidden',
+      message:
+        err.message || 'Acesso negado, você não possui permissão ao recusro',
     };
   }
 
