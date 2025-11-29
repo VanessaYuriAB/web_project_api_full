@@ -8,12 +8,12 @@ const {
   unlikeCard,
 } = require('../controllers/cards');
 
-// rotas para cartões
+// Rotas para cartões ('/cards')
 cardsRouter.get('/', getCards);
 cardsRouter.post('/', createCard);
 cardsRouter.delete('/:cardId', deleteCardById);
 cardsRouter.put('/:cardId/likes', likeCard);
 cardsRouter.delete('/:cardId/likes', unlikeCard);
 
-// exporta o roteador de cartões
+// Exporta o roteador de cartões
 module.exports = cardsRouter;

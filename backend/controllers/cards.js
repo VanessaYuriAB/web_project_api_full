@@ -13,24 +13,36 @@ const getCards = async (req, res) => {
 // Erros: Validation ou Internal server
 const createCard = async (req, res) => {
   const { name, link } = req.body;
-  // O campo owner do cartão será o _id do usuário que está criando o cartão
-  // Temporariamente, _id é acessível aqui, pelo middleware adicionado em app.js
+  // O campo owner do cartão será o _id do usuário autenticado,
+  // obtido pelo middleware de autenticação (auth), contido no payload
   const card = await Card.create({ name, link, owner: req.user._id });
   res.status(201).send({ data: card });
 };
 
 // O manipulador de solicitação deleteCardById, por _id
-// Erros: Not found, Cast ou Internal server
+// Erros: Not found, Cast, Forbidden ou Internal server
 const deleteCardById = async (req, res) => {
   const { cardId } = req.params;
-  const cardToDelete = await Card.findByIdAndDelete(cardId).orFail(() => {
+
+  const cardToDelete = await Card.findById(cardId).orFail(() => {
     const err = new Error(
-      'Erro ao deletar cartão, Recurso não encontrado: não existe cartão com o id solicitado',
+      'Erro ao deletar cartão, não existe cartão com o id solicitado',
     );
     err.name = 'NotFoundError';
     throw err;
   });
-  res.send({ data: cardToDelete });
+
+  if (req.user._id !== cardToDelete.owner.toString()) {
+    const err = new Error(
+      'Acesso negado, você não possui permissão para deleter este cartão',
+    );
+    err.name = 'Forbidden';
+    throw err;
+  }
+
+  const deletedCard = await Card.findByIdAndDelete(cardId);
+
+  res.send({ data: deletedCard });
 };
 
 // O manipulador de solicitação likeCard, por _id do cartão
