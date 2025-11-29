@@ -8,8 +8,8 @@ module.exports = (req, res, next) => {
 
   // Validação básica do cabeçalho do token
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    const err = new Error('Autorização necessária');
-    err.name = 'Unauthorized';
+    const err = new Error('Acesso negado, sem permissão para o recurso');
+    err.name = 'Forbidden';
     return handleError(res, err);
   }
 
