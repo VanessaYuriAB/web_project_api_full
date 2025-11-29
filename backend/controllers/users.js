@@ -113,6 +113,19 @@ const login = async (req, res) => {
   res.send({ token });
 };
 
+// Controlador para infos do usuário logado
+const getUser = async (req, res) => {
+  const { _id } = req.user;
+
+  const loggedUser = await User.findById(_id).orFail(() => {
+    const err = new Error('Erro ao localizar usuário, id não encontrado');
+    err.name = 'NotFoundError';
+    throw err;
+  });
+
+  res.send({ data: loggedUser });
+};
+
 module.exports = {
   getUsers: handleAsync(getUsers),
   getUserById: handleAsync(getUserById),
@@ -120,4 +133,5 @@ module.exports = {
   updateUser: handleAsync(updateUser),
   updateAvatar: handleAsync(updateAvatar),
   login: handleAsync(login),
+  getUser: handleAsync(getUser),
 };
