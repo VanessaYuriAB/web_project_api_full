@@ -40,15 +40,6 @@ app.use((req, res, next) => {
 // Middleware para analisar o corpo das requisições como JSON
 app.use(express.json());
 
-// Middleware para simular um usuário autenticado
-app.use((req, res, next) => {
-  req.user = {
-    _id: '68c4168c01d67ddcff340228', // _id do usuário teste criado via Postman
-  };
-
-  next();
-});
-
 // -------------------------------------
 // Rotas que não precisam de autorização
 // -------------------------------------
