@@ -93,21 +93,33 @@ const updateUser = async (req, res) => {
 };
 
 // O manipulador de solicitação updateAvatar
-// Erros: Not found, Validation, Cast ou Internal server
+// Erros: Not found, Validation, Cast, Forbiidden ou Internal server
 const updateAvatar = async (req, res) => {
   const { avatar } = req.body;
-  const updatedUser = await User.findByIdAndUpdate(
-    req.user._id,
-    { avatar },
-    { new: true, runValidators: true },
-  ).orFail(() => {
+
+  const avatarToUpdate = await User.findById(req.user._id).orFail(() => {
     const err = new Error(
-      'Erro ao atualizar avatar, Recurso não encontrado: não existe usuário com o id solicitado',
+      'Erro ao atualizar avatar, não existe usuário com o id solicitado',
     );
     err.name = 'NotFoundError';
     throw err;
   });
-  res.send({ data: updatedUser });
+
+  if (req.user._id !== avatarToUpdate._id.toString()) {
+    const err = new Error(
+      'Acesso negado, você não possui permissão para atualizar este avatar',
+    );
+    err.name = 'Forbidden';
+    throw err;
+  }
+
+  const updatedAvatar = await User.findByIdAndUpdate(
+    { _id: req.user._id },
+    { avatar },
+    { new: true, runValidators: true },
+  );
+
+  res.send({ data: updatedAvatar });
 };
 
 // Controlador de autenticação
