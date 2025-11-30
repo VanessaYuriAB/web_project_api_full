@@ -63,20 +63,32 @@ const createUser = async (req, res) => {
 };
 
 // O manipulador de solicitação updateUser
-// Erros: Not found, Validation, Cast ou Internal server
+// Erros: Not found, Validation, Cast, Forbidden ou Internal server
 const updateUser = async (req, res) => {
   const { name, about } = req.body;
-  const updatedUser = await User.findByIdAndUpdate(
-    req.user._id,
-    { name, about },
-    { new: true, runValidators: true },
-  ).orFail(() => {
+
+  const userToUpdate = await User.findById(req.user._id).orFail(() => {
     const err = new Error(
-      'Erro ao atualizar usuário, Recurso não encontrado: não existe usuário com o id solicitado',
+      'Erro ao atualizar usuário, não existe usuário com o id solicitado',
     );
     err.name = 'NotFoundError';
     throw err;
   });
+
+  if (req.user._id !== userToUpdate._id.toString()) {
+    const err = new Error(
+      'Acesso negado, você não possui permissão para atualizar este perfil',
+    );
+    err.name = 'Forbidden';
+    throw err;
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    { _id: req.user._id },
+    { name, about },
+    { new: true, runValidators: true },
+  );
+
   res.send({ data: updatedUser });
 };
 
