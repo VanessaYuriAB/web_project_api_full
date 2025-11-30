@@ -46,7 +46,7 @@ function mapError(err) {
       statusCode: ERROR_CODES.FORBIDDEN,
       name: 'Forbidden',
       message:
-        err.message || 'Acesso negado, você não possui permissão ao recusro',
+        err.message || 'Acesso negado, você não possui permissão ao recurso',
     };
   }
 

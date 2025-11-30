@@ -6,6 +6,22 @@ const User = require('../models/user');
 
 const { handleAsync } = require('../utils/utils');
 
+// Função genérica para atualizações de perfil
+const updateProfileFields = async (userId, fieldsToUpdate) => {
+  const updatedUser = await User.findByIdAndUpdate(userId, fieldsToUpdate, {
+    new: true,
+    runValidators: true,
+  }).orFail(() => {
+    const err = new Error(
+      'Erro ao atualizar perfil, não existe usuário com o id solicitado',
+    );
+    err.name = 'NotFoundError';
+    throw err;
+  });
+
+  return updatedUser;
+};
+
 // O manipulador de solicitação getUsers
 // Erros: Internal Server
 const getUsers = async (req, res) => {
@@ -63,61 +79,21 @@ const createUser = async (req, res) => {
 };
 
 // O manipulador de solicitação updateUser
-// Erros: Not found, Validation, Cast, Forbidden ou Internal server
+// Erros: Not found, Validation, Cast ou Internal server
 const updateUser = async (req, res) => {
   const { name, about } = req.body;
 
-  const userToUpdate = await User.findById(req.user._id).orFail(() => {
-    const err = new Error(
-      'Erro ao atualizar usuário, não existe usuário com o id solicitado',
-    );
-    err.name = 'NotFoundError';
-    throw err;
-  });
-
-  if (req.user._id !== userToUpdate._id.toString()) {
-    const err = new Error(
-      'Acesso negado, você não possui permissão para atualizar este perfil',
-    );
-    err.name = 'Forbidden';
-    throw err;
-  }
-
-  const updatedUser = await User.findByIdAndUpdate(
-    { _id: req.user._id },
-    { name, about },
-    { new: true, runValidators: true },
-  );
+  const updatedUser = await updateProfileFields(req.user._id, { name, about });
 
   res.send({ data: updatedUser });
 };
 
 // O manipulador de solicitação updateAvatar
-// Erros: Not found, Validation, Cast, Forbiidden ou Internal server
+// Erros: Not found, Validation, Cast ou Internal server
 const updateAvatar = async (req, res) => {
   const { avatar } = req.body;
 
-  const avatarToUpdate = await User.findById(req.user._id).orFail(() => {
-    const err = new Error(
-      'Erro ao atualizar avatar, não existe usuário com o id solicitado',
-    );
-    err.name = 'NotFoundError';
-    throw err;
-  });
-
-  if (req.user._id !== avatarToUpdate._id.toString()) {
-    const err = new Error(
-      'Acesso negado, você não possui permissão para atualizar este avatar',
-    );
-    err.name = 'Forbidden';
-    throw err;
-  }
-
-  const updatedAvatar = await User.findByIdAndUpdate(
-    { _id: req.user._id },
-    { avatar },
-    { new: true, runValidators: true },
-  );
+  const updatedAvatar = await updateProfileFields(req.user._id, { avatar });
 
   res.send({ data: updatedAvatar });
 };
