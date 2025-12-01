@@ -41,6 +41,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     require: true,
     minlength: 8, // conforme está na msg de erro do input, no frontend
+    select: false, // o hash de senha não será retornado do banco de dados por padrão
   },
 });
 
@@ -49,11 +50,13 @@ userSchema.statics.findUserByCredentials = async function findUserByCredentials(
   email,
   password,
 ) {
-  const userInDB = await this.findOne({ email }).orFail(() => {
-    const err = new Error('E-mail ou senha incorretos');
-    err.name = 'Unauthorized';
-    throw err;
-  });
+  const userInDB = await this.findOne({ email })
+    .select('+password')
+    .orFail(() => {
+      const err = new Error('E-mail ou senha incorretos');
+      err.name = 'Unauthorized';
+      throw err;
+    });
 
   const matchedUser = await bcrypt.compare(password, userInDB.password);
 
