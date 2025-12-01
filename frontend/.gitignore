@@ -2,15 +2,26 @@
 logs
 *.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
+# Dependências do Node.js
+node_modules/
 *.local
 
-# Editor directories and files
+# Build e distribuição
+dist/
+build/
+coverage/
+
+# Lockfiles
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Cache
+.cache/
+.parcel-cache/
+
+# Editor
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
@@ -21,3 +32,12 @@ node_modules
 *.njsproj
 *.sln
 *.sw?
+
+# Ambiente
+.env
+.env.local
+.env.development
+.env.production
+
+# Husky
+.husky/
