@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-
   "engines": {
     "node": ">=22.15.0"
   },
@@ -12,18 +11,16 @@
     "not dead",
     "not op_mini all"
   ],
-
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "prepare": "husky",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives",
     "lint:fix": "eslint . --ext js,jsx --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "preview": "vite preview",
-    "deploy": "npm run build && scp -r -i ~/.ssh/id_ed25519 ./docs/* emaildavanessayuri@aroundtheusa.sevencomets.com:/home/emaildavanessayuri/web_project_around_frontend"
+    "preview": "vite preview"
   },
-
   "dependencies": {
     "react": "19.2.0",
     "react-dom": "19.2.0",
@@ -43,7 +40,18 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.2.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "prettier": "^3.6.2",
     "vite": "^7.1.12"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx}": [
+      "npm run lint:fix",
+      "npm run format"
+    ],
+    "**/*.{css,scss,md,json}": [
+      "npm run format"
+    ]
   }
 }
