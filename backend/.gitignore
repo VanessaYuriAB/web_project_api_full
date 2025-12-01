@@ -16,6 +16,7 @@ node_modules/
 # Pastas geradas por processos de build/transpilação
 dist/
 build/
+coverage/
 
 # ARQUIVOS TEMPORÁRIOS
 # Pastas e arquivos temporários
@@ -32,5 +33,9 @@ Thumbs.db
 .idea/
 .vscode/
 
-# DADOS SENSÍVEIS
-.env
+# AMBIENTE
+# Variáveis sensíveis
+.env*
+
+# Husky
+.husky/
