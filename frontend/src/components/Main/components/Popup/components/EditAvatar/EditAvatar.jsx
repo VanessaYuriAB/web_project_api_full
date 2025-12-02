@@ -34,9 +34,9 @@ function EditAvatar({ handleClosePopup, popup }) {
     }, // onSuccess
     (error) => {
       console.error(
-        `Erro ao atualizar a foto do perfil. \n Nome: ${error.name} \n Mensagem: ${error.message}`
+        `Erro ao atualizar a foto do perfil. \n Nome: ${error.name} \n Mensagem: ${error.message}`,
       );
-    } // onError
+    }, // onError
   );
 
   return (

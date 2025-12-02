@@ -12,11 +12,11 @@ class FormValidator {
     this._inactiveButtonClass = 'form__button_disabled'; // valor padrão
 
     this._inputList = Array.from(
-      this._formElement.querySelectorAll(this._inputSelector)
+      this._formElement.querySelectorAll(this._inputSelector),
     );
 
     this._buttonElement = this._formElement.querySelector(
-      this._submitButtonSelector
+      this._submitButtonSelector,
     );
   }
 
@@ -39,7 +39,7 @@ class FormValidator {
 
   _showInputError(inputElement, errorMessage) {
     const errorElement = this._formElement.querySelector(
-      `.${inputElement.id}-error`
+      `.${inputElement.id}-error`,
     );
 
     errorElement.textContent = errorMessage;
@@ -48,7 +48,7 @@ class FormValidator {
 
   _hideInputError(inputElement) {
     const errorElement = this._formElement.querySelector(
-      `.${inputElement.id}-error`
+      `.${inputElement.id}-error`,
     );
 
     errorElement.classList.remove(this._inputErrorClass);

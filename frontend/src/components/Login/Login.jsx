@@ -42,7 +42,7 @@ function Login({ tooltip, setTooltip, isSuccess, setIsSuccess }) {
     () => {
       setIsSuccess(false); // define o tooltip de falha
       setTooltip(true); // renderiza a tela com a msg de erro
-    } // onError
+    }, // onError
   );
 
   // Handlers: atualiza o estado sempre que o usuário digita
