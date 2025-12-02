@@ -16,6 +16,8 @@ import Register from './Register/Register.jsx';
 import Login from './Login/Login.jsx';
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute.jsx';
 
+import { setAndStorageToken, getToken, removeToken } from '../utils/token.js';
+
 /*
 Linha comentada para prevenir duplicação ao enviar cards iniciais.
 Executar apenas uma vez, quando necessário enviar os dados para a API.
@@ -29,6 +31,11 @@ function App() {
   // Controle de renderização do tooltip
   const [tooltip, setTooltip] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  // Variável state para o token
+  // Se ainda não existe, cai para '' (string vazia), evitando null ou undefined
+  // Se usar apenas '', o token só será carregado depois do useEffect, causando delay na renderização inicial e, desta forma, se houver token, a variável de estado já é setada inicialmente
+  const [jwtToken, setJwtToken] = useState(getToken() || '');
 
   // Status de login
   const [loggedIn, setLoggedIn] = useState(false);
@@ -51,7 +58,7 @@ function App() {
   // Manipulador para logout
   const onSignOut = async () => {
     if (!loggedIn) return; // evita execução dupla, já que o efeito de montagem do app também chama esta função
-    localStorage.removeItem('jwt'); // remove o token do armazenamento local
+    removeToken(setJwtToken); // função utilitária: limpa token da variável de estado e remove do armazenamento local
     setLoggedIn(false); // desabilita o login
     setEmailLogged(''); // limpa o estado de e-mail de usuário logado
     navigate('/signin', { replace: true }); // redireciona para página de login
@@ -66,8 +73,8 @@ function App() {
     let isMounted = true; // flag para verificar se o componente está montado:
     // evita setState após desmontar
 
-    // Verifica se há um JWT no armazenamento local,
-    const jwt = localStorage.getItem('jwt');
+    // Verifica se há um JWT no armazenamento local, direto do localStorage
+    const jwt = getToken();
 
     // se não houver token, sai da função
     if (!jwt) {
@@ -75,7 +82,7 @@ function App() {
       return;
     }
 
-    // Valida token, loga, pega email do usuário e redireciona para '/'
+    // Para validar token, logar, pegar email do usuário e redirecionar para '/'
     async function getTokenAndEmail(jwt) {
       try {
         const { data } = await auth.getContent(jwt);
@@ -96,7 +103,7 @@ function App() {
       }
     }
 
-    // Busca e seta dados de perfil e cards do usuário
+    // Para buscar e setar dados de perfil e cards do usuário
     // com infos retornadas pela API - em Promisse.all
     async function fetchData() {
       try {
@@ -108,7 +115,7 @@ function App() {
         setCards(cardsData);
       } catch (error) {
         console.error(
-          `Erro ao obter informações ou cartões do usuário. \n Nome: ${error.name} \n Mensagem: ${error.message}`
+          `Erro ao obter informações ou cartões do usuário. \n Nome: ${error.name} \n Mensagem: ${error.message}`,
         );
       }
     }
@@ -120,7 +127,7 @@ function App() {
         await fetchData();
       } catch (error) {
         console.error(
-          `Erro durante o mount. \n Nome: ${error.name} \n Mensagem: ${error.message}`
+          `Erro durante o mount. \n Nome: ${error.name} \n Mensagem: ${error.message}`,
         );
       } finally {
         if (isMounted) {
@@ -161,11 +168,11 @@ function App() {
       const updatedCard = await myApi.toggleLikeCard(card._id, !isLiked);
 
       setCards((prevCards) =>
-        prevCards.map((item) => (item._id === card._id ? updatedCard : item))
+        prevCards.map((item) => (item._id === card._id ? updatedCard : item)),
       );
     } catch (error) {
       console.error(
-        `Erro ao curtir/descurtir o cartão. \n Nome: ${error.name} \n Mensagem: ${error.message}`
+        `Erro ao curtir/descurtir o cartão. \n Nome: ${error.name} \n Mensagem: ${error.message}`,
       );
     }
   };
@@ -175,8 +182,8 @@ function App() {
     await myApi.deleteCard(card._id);
     setCards((stateCards) =>
       stateCards.filter(
-        (currentCardInFilter) => currentCardInFilter._id !== card._id
-      )
+        (currentCardInFilter) => currentCardInFilter._id !== card._id,
+      ),
     ); // remove o card excluído do estado
   };
 
@@ -215,7 +222,8 @@ function App() {
 
   // Manipulador para login
   const onLogin = async (token, email) => {
-    localStorage.setItem('jwt', token); // salva o token no armazenamento local
+    setAndStorageToken(token, setJwtToken); // função utilitária: atualiza token na
+    // variável de estado e armazenamento local
     setLoggedIn(true); // permite o login do usuário
     setEmailLogged(email); // salva o e-mail do usuário no estado,
     // compartilhado por contexto para acesso em todo o app
