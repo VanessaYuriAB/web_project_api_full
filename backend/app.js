@@ -4,12 +4,16 @@ const mongoose = require('mongoose');
 
 const dotenv = require('dotenv');
 
+const cors = require('cors');
+
 const { createUser, login } = require('./controllers/users');
 
 const auth = require('./middleware/auth');
 
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
+
+const { handleError } = require('./utils/utils');
 
 dotenv.config();
 
@@ -39,6 +43,63 @@ app.use((req, res, next) => {
 
 // Middleware para analisar o corpo das requisições como JSON
 app.use(express.json());
+
+// -------------
+// Cors
+// -------------
+
+// Configuração com opções específicas
+
+// Array de domínios a partir dos quais são permitidas solicitações
+const allowedCors = [
+  'http://localhost:3001',
+  'https://aroundtheusa.sevencomets.com',
+];
+
+const corsOptions = {
+  // O callback é uma função fornecida pelo middleware cors para indicar se a origem é permitida
+  // Ele espera dois parâmetros: callback(error, allow)
+  // error: null se não houve erro, ou um objeto Error se você quer bloquear.
+  // allow: true se a origem é permitida, ou false se não é.
+
+  origin: (origin, callback) => {
+    // Se não houver origin (Postman, curl, apps mobile), permite
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    // Se houver origin e estiver na lista, permite
+    if (allowedCors.includes(origin)) {
+      return callback(null, true);
+    }
+
+    // Caso contrário, bloqueia
+
+    // Cria um erro customizado com name, compatível com sistema de tratamento em utils.js
+    const corsError = new Error(`Origem não permitida pelo CORS, ${origin}`);
+    corsError.name = 'Forbidden'; // para mapear no handleError
+    return callback(corsError);
+  }, // origens permitidas
+
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, // permite envio de cookies/autenticação (no caso de utilização de
+  // cookies httpOnly, ao invés do armazenamento do JWT token no localStorage)
+};
+
+// Aplica CORS com opções personalizadas
+app.use(cors(corsOptions));
+
+// Trata requisições preflight (OPTIONS) para qualquer rota
+app.options(/.*/, cors(corsOptions)); // regex /.*/ para qlqr caminho,
+// evita erro path-to-regexp que ocorre com '*' ou '(.*)' em versões recentes do Express
+
+// Middleware para capturar e tratar erros do CORS
+// Quando o middleware global de erros for implementado,
+// o bloco de captura de erros será movido para o final do arquivo
+app.use((err, res) => {
+  handleError(res, err);
+});
 
 // -------------------------------------
 // Rotas que não precisam de autorização
