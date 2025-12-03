@@ -13,8 +13,6 @@ const auth = require('./middleware/auth');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 
-const { handleError } = require('./utils/utils');
-
 dotenv.config();
 
 const app = express();
@@ -75,9 +73,9 @@ const corsOptions = {
 
     // Caso contrário, bloqueia
 
-    // Cria um erro customizado com name, compatível com sistema de tratamento em utils.js
+    // Cria um erro customizado com name
     const corsError = new Error(`Origem não permitida pelo CORS, ${origin}`);
-    corsError.name = 'Forbidden'; // para mapear no handleError
+    corsError.name = 'Forbidden';
     return callback(corsError);
   }, // origens permitidas
 
@@ -93,13 +91,6 @@ app.use(cors(corsOptions));
 // Trata requisições preflight (OPTIONS) para qualquer rota
 app.options(/.*/, cors(corsOptions)); // regex /.*/ para qlqr caminho,
 // evita erro path-to-regexp que ocorre com '*' ou '(.*)' em versões recentes do Express
-
-// Middleware para capturar e tratar erros do CORS
-// Quando o middleware global de erros for implementado,
-// o bloco de captura de erros será movido para o final do arquivo
-app.use((err, res) => {
-  handleError(res, err);
-});
 
 // -------------------------------------
 // Rotas que não precisam de autorização
