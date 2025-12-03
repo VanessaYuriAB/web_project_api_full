@@ -9,7 +9,7 @@ import {
 } from '@utils/utils.js';
 
 // BASE_URL da API
-export const BASE_URL = 'https://se-register-api.en.tripleten-services.com/v1';
+export const BASE_URL = 'http://localhost:3000';
 
 // POST - /signup — para registro de usuário
 export const register = async (email, password) => {
