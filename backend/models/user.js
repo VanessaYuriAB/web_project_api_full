@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    require: true,
+    required: true,
     unique: true,
     validate: {
       validator: (v) => isEmail(v),
@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    require: true,
+    required: true,
     minlength: 8, // conforme está na msg de erro do input, no frontend
     select: false, // o hash de senha não será retornado do banco de dados por padrão
   },
