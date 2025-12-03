@@ -134,9 +134,7 @@ app.use((req, res) => {
 // ------------------------
 
 mongoose
-  .connect(
-    `mongodb+srv://emaildavanessayuri_db_user:${process.env.MONGO_PWD}@clusteraroundfull.buacevu.mongodb.net/?appName=ClusterAroundFull`,
-  )
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log(
       'Connected to MongoDB Atlas, o nome do banco do dados é "teste"',
