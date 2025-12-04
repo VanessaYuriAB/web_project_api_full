@@ -49,7 +49,7 @@ export const register = async (email, password) => {
     let message = getErrorMessageByStatus({
       resStatus: res.status,
       dataMessage: data.message,
-      notFoundMsg: errorMessages.register.notFound,
+      badRequestMsg: errorMessages.register.badRequest,
       // unauthorizedMsg omitido
       defaulMsg: errorMessages.register.default,
     });
@@ -79,7 +79,7 @@ export const authorize = async (email, password) => {
     let message = getErrorMessageByStatus({
       resStatus: res.status,
       dataMessage: data.message,
-      notFoundMsg: errorMessages.authorize.notFound,
+      badRequestMsg: errorMessages.authorize.badRequest,
       unauthorizedMsg: errorMessages.authorize.unauthorized,
       defaulMsg: errorMessages.authorize.default,
     });

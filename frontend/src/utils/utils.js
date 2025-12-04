@@ -32,7 +32,7 @@ export const makeAuthRequest = async ({
 export const getErrorMessageByStatus = ({
   resStatus,
   dataMessage,
-  notFoundMsg,
+  badRequestMsg,
   unauthorizedMsg = '', // valor padrão vazio, se não fornecido, no caso da requisição register
   defaultMsg,
 }) => {
@@ -56,18 +56,18 @@ export const getErrorMessageByStatus = ({
 // Variáveis para mensagens de erro conforme requisição (endpoint)
 export const errorMessages = {
   register: {
-    notFound:
+    badRequest: 'Um dos campos foi preenchido incorretamente',
       'Um dos campos foi preenchido incorretamente ou o e-mail já está cadastrado',
     default: 'Erro desconhecido durante o cadastro',
   },
   authorize: {
-    notFound: 'Um ou mais campos não foram fornecidos',
+    badRequest: 'Um ou mais campos não foram fornecidos',
     unauthorized:
-      'Não autorizado: o usuário com o e-mail especificado não foi encontrado ou a senha está incorreta',
+      'O usuário com o e-mail especificado não foi encontrado ou a senha está incorreta',
     default: 'Erro desconhecido durante o login',
   },
   getContent: {
-    notFound: 'Token não fornecido ou fornecido em formato errado',
+    badRequest: 'Token não fornecido ou fornecido em formato errado',
     unauthorized: 'O token fornecido é inválido',
     default: 'Erro desconhecido durante a busca de informações de login',
   },
