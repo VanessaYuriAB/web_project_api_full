@@ -51,6 +51,7 @@ export const register = async (email, password) => {
       dataMessage: data.message,
       badRequestMsg: errorMessages.register.badRequest,
       // unauthorizedMsg omitido
+      conflictMsg: errorMessages.register.conflictMsg,
       defaulMsg: errorMessages.register.default,
     });
 
@@ -81,6 +82,7 @@ export const authorize = async (email, password) => {
       dataMessage: data.message,
       badRequestMsg: errorMessages.authorize.badRequest,
       unauthorizedMsg: errorMessages.authorize.unauthorized,
+      // conflictMsg omitido
       defaulMsg: errorMessages.authorize.default,
     });
 

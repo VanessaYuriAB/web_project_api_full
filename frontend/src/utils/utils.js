@@ -34,15 +34,19 @@ export const getErrorMessageByStatus = ({
   dataMessage,
   badRequestMsg,
   unauthorizedMsg = '', // valor padrão vazio, se não fornecido, no caso da requisição register
+  conflictMsg = '', // valor padrão vazio, se não fornecido, no caso da requisição login
   defaultMsg,
 }) => {
   let message;
   switch (resStatus) {
     case 400:
-      message = dataMessage || notFoundMsg;
+      message = dataMessage || badRequestMsg;
       break;
     case 401:
       message = dataMessage || unauthorizedMsg;
+      break;
+    case 409:
+      message = dataMessage || conflictMsg;
       break;
     case 500:
       message = 'Erro interno do servidor';
@@ -57,7 +61,7 @@ export const getErrorMessageByStatus = ({
 export const errorMessages = {
   register: {
     badRequest: 'Um dos campos foi preenchido incorretamente',
-      'Um dos campos foi preenchido incorretamente ou o e-mail já está cadastrado',
+    conflict: 'Este e-mail já está cadastrado',
     default: 'Erro desconhecido durante o cadastro',
   },
   authorize: {
