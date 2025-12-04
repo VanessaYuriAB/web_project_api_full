@@ -40,7 +40,7 @@ class Api {
   };
 
   // Carrega as informações de usuário do servidor
-  _getUserInfo = async () => {
+  _getUserInfo = () => {
     return this._makeRequest({
       endpoint: `${this._baseUrl}/users/me`,
       method: 'GET', // a solicitação GET é enviada com content-type,
@@ -51,7 +51,7 @@ class Api {
 
   // Envia meus cards iniciais ao usuário do servidor
   createInitialCards = async () => {
-    const promises = myCards.map(async (card) => {
+    const promises = myCards.map((card) => {
       return this._makeRequest({
         endpoint: `${this._baseUrl}/cards/`,
         method: 'POST',
@@ -62,12 +62,13 @@ class Api {
       });
     });
 
-    return Promise.all(promises); // retorna uma Promise que só resolve quando
-    // todos os cards do map forem enviados
+    const result = await Promise.all(promises); // await aguarda tds as promisses para já devolver o resultado, quem chamar o método não precisa aguardar > Promise.all devolve, tbm, uma promisse que só resolve quando tds os cards do map forem enviados
+
+    return result; // retorna o array da Promisse já com as respostas
   };
 
   // Captura cards do usuário do servidor
-  _getCards = async () => {
+  _getCards = () => {
     return this._makeRequest({
       endpoint: `${this._baseUrl}/cards/`,
       method: 'GET',
@@ -75,7 +76,7 @@ class Api {
   };
 
   // Atualiza infos do perfil
-  updateProfileInfo = async (dataProfile) => {
+  updateProfileInfo = (dataProfile) => {
     return this._makeRequest({
       endpoint: `${this._baseUrl}/users/me`,
       method: 'PATCH',
@@ -87,7 +88,7 @@ class Api {
   };
 
   // Atualiza foto do perfil
-  updateProfileAvatar = async (dataPhoto) => {
+  updateProfileAvatar = (dataPhoto) => {
     return this._makeRequest({
       endpoint: `${this._baseUrl}/users/me/avatar`,
       method: 'PATCH',
@@ -98,7 +99,7 @@ class Api {
   };
 
   // Adiciona um novo cartão na conta do usuário do servidor
-  createNewCard = async (dataCard) => {
+  createNewCard = (dataCard) => {
     return this._makeRequest({
       endpoint: `${this._baseUrl}/cards/`,
       method: 'POST',
@@ -111,7 +112,7 @@ class Api {
   };
 
   // Curte um cartão
-  _likeCard = async (cardId) => {
+  _likeCard = (cardId) => {
     return this._makeRequest({
       endpoint: `${this._baseUrl}/cards/${cardId}/likes`,
       method: 'PUT',
@@ -119,7 +120,7 @@ class Api {
   };
 
   // Descurte um cartão
-  _unlikeCard = async (cardId) => {
+  _unlikeCard = (cardId) => {
     return this._makeRequest({
       endpoint: `${this._baseUrl}/cards/${cardId}/likes`,
       method: 'DELETE',
@@ -133,7 +134,7 @@ class Api {
   }
 
   // Deleta um cartão do servidor
-  deleteCard = async (cardId) => {
+  deleteCard = (cardId) => {
     return this._makeRequest({
       endpoint: `${this._baseUrl}/cards/${cardId}`,
       method: 'DELETE',
@@ -142,7 +143,7 @@ class Api {
 
   // Captura cartões somente após carregar as informações do usuário no servidor
   getServerUserAndCards() {
-    return Promise.all([this._getUserInfo(), this._getCards()]);
+    return Promise.all([this._getUserInfo(), this._getCards()]); // quem chama o método, aguarda o resultado das promisses com await
   }
 }
 

@@ -56,7 +56,7 @@ function App() {
   const [checkingAuth, setCheckingAuth] = useState(true);
 
   // Manipulador para logout
-  const onSignOut = async () => {
+  const onSignOut = () => {
     if (!loggedIn) return; // evita execução dupla, já que o efeito de montagem do app também chama esta função
     removeToken(setJwtToken); // função utilitária: limpa token da variável de estado e remove do armazenamento local
     setLoggedIn(false); // desabilita o login
@@ -221,7 +221,7 @@ function App() {
   };
 
   // Manipulador para login
-  const onLogin = async (token, email) => {
+  const onLogin = (token, email) => {
     setAndStorageToken(token, setJwtToken); // função utilitária: atualiza token na
     // variável de estado e armazenamento local
     setLoggedIn(true); // permite o login do usuário
