@@ -4,6 +4,8 @@
 
 import { myCards } from './constants';
 
+import { getToken } from './token';
+
 class Api {
   constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
@@ -146,10 +148,11 @@ class Api {
 
 // Instância de Api: myApi (fetch)
 const myApi = new Api({
-  baseUrl: 'https://around-api.pt-br.tripleten-services.com/v1',
+  baseUrl: 'http://localhost:3000',
   headers: {
-    authorization: '3c7ad9a7-200c-4d07-b160-7978cd40d815',
+    Accept: 'application/json',
     'Content-Type': 'application/json',
+    Authorization: `Bearer ${getToken()}`,
   },
 });
 
