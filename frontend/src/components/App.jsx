@@ -199,13 +199,6 @@ function App() {
       if (data.token) {
         onLogin(data.token, email); // atualiza estados e redireciona
       }
-
-      const [userData, cardsData] = await myApi.getServerUserAndCards();
-
-      if (userData && cardsData) {
-        setCurrentUser(userData); // atualiza dados de perfil do usuário atual
-        setCards(cardsData); // atualiza cartões
-      }
     } catch (error) {
       console.error(`Erro no login: ${error.message}`);
       throw error; // repassa para o hook de envio
