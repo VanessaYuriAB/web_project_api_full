@@ -61,6 +61,8 @@ function App() {
     removeToken(setJwtToken); // função utilitária: limpa token da variável de estado e remove do armazenamento local
     setLoggedIn(false); // desabilita o login
     setEmailLogged(''); // limpa o estado de e-mail de usuário logado
+    setCurrentUser({}); // limpa infos do estado para o perfil do usuário
+    setCards([]); // limpa lista de cards do perfil do usuário
     navigate('/signin', { replace: true }); // redireciona para página de login
   };
 
