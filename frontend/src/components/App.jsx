@@ -68,13 +68,13 @@ function App() {
   const navigateRef = useRef(navigate);
   const onSignOutRef = useRef(onSignOut);
 
-  // Montagem inicial do aplicativo: mount-only
+  // Montagem do aplicativo: roda com atualização do jwtToken
   useEffect(() => {
     let isMounted = true; // flag para verificar se o componente está montado:
     // evita setState após desmontar
 
-    // Verifica se há um JWT no armazenamento local, direto do localStorage
-    const jwt = getToken();
+    // Verifica se há um JWT no armazenamento local, pela variável state que busca do localStorage
+    const jwt = jwtToken;
 
     // se não houver token, sai da função
     if (!jwt) {
@@ -120,7 +120,7 @@ function App() {
     return () => {
       isMounted = false;
     };
-  }, []); // array vazio = roda só na montagem
+  }, [jwtToken]); // roda na montagem e em atualizações de token
 
   // Atualiza o perfil do usuário
   const handleUpdateUser = async (userData) => {
