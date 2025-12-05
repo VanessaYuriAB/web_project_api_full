@@ -5,12 +5,10 @@
 
 // Função genérica para enviar requisições HTTP
 export const makeAuthRequest = async ({
-  token,
   endpoint,
   headers = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
-    Authorization: token ? `Bearer ${token}` : undefined,
   },
   method,
   reqBody,
@@ -70,10 +68,5 @@ export const errorMessages = {
     unauthorized:
       'O usuário com o e-mail especificado não foi encontrado ou a senha está incorreta',
     default: 'Erro desconhecido durante o login',
-  },
-  getContent: {
-    badRequest: 'Token não fornecido ou fornecido em formato errado',
-    unauthorized: 'O token fornecido é inválido',
-    default: 'Erro desconhecido durante a busca de informações de login',
   },
 };

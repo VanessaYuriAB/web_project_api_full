@@ -82,54 +82,32 @@ function App() {
       return;
     }
 
-    // Para validar token, logar, pegar email do usuário e redirecionar para '/'
-    async function getTokenAndEmail(jwt) {
+    // Para validar token, logar, setar infos de perfil do usuário e redirecionar para '/'
+    async function checkTokenAndSetUser() {
       try {
-        const { data } = await auth.getContent(jwt);
+        const [userData, cardsData] = await myApi.getServerUserAndCards();
 
         if (!isMounted) return; // verifica se o componente ainda está montado
 
         setLoggedIn(true);
-        setEmailLogged(data.email);
+        setEmailLogged(userData.email);
+
+        setCurrentUser(userData);
+        setCards(cardsData);
 
         // Só navega se estiver em outra rota
         if (window.location.pathname !== '/') {
           navigateRef.current('/', { replace: true }); // usa a ref para evitar dependência
         }
-      } catch {
-        if (!isMounted) return;
-
-        // Se o token for inválido ou ocorrer erro, desloga o usuário
-        onSignOutRef.current(); // usa a ref para evitar dependência
-      }
-    }
-
-    // Para buscar e setar dados de perfil e cards do usuário
-    // com infos retornadas pela API - em Promisse.all
-    async function fetchData() {
-      try {
-        const [userData, cardsData] = await myApi.getServerUserAndCards();
-
-        if (!isMounted) return;
-
-        setCurrentUser(userData);
-        setCards(cardsData);
-      } catch (error) {
-        console.error(
-          `Erro ao obter informações ou cartões do usuário. \n Nome: ${error.name} \n Mensagem: ${error.message}`,
-        );
-      }
-    }
-
-    // Primeiro valida token e busca email; depois busca dados e cards do usuário
-    async function checkTokenAndMountApp() {
-      try {
-        await getTokenAndEmail(jwt);
-        await fetchData();
       } catch (error) {
         console.error(
           `Erro durante o mount. \n Nome: ${error.name} \n Mensagem: ${error.message}`,
         );
+
+        if (!isMounted) return;
+
+        // Se o token for inválido ou ocorrer erro, desloga o usuário
+        onSignOutRef.current(); // usa a ref para evitar dependência
       } finally {
         if (isMounted) {
           setCheckingAuth(false); // finaliza verificação de autenticação
@@ -137,7 +115,7 @@ function App() {
       }
     }
 
-    checkTokenAndMountApp();
+    checkTokenAndSetUser();
 
     return () => {
       isMounted = false;

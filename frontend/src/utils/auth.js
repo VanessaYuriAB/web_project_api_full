@@ -83,33 +83,3 @@ export const authorize = async (email, password) => {
 
   throw new Error(message);
 };
-
-// GET - /users/me — para validar o token e obter o email (exibido no cabeçalho)
-export const getContent = async (token) => {
-  try {
-    const res = await makeAuthRequest({
-      token: token,
-      endpoint: `${BASE_URL}/users/me`,
-      method: 'GET',
-    });
-
-    const data = await res.json().catch(() => ({}));
-
-    if (res.ok) {
-      return data;
-    }
-
-    let message = getErrorMessageByStatus({
-      resStatus: res.status,
-      dataMessage: data.message,
-      notFoundMsg: errorMessages.getContent.notFound,
-      unauthorizedMsg: errorMessages.getContent.unauthorized,
-      defaultMsg: errorMessages.getContent.default,
-    });
-
-    throw new Error(message);
-  } catch (error) {
-    console.error(`Erro ao buscar informações de login: ${error.message}`);
-    throw error;
-  }
-};
