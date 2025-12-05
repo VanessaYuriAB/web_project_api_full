@@ -91,8 +91,8 @@ function App() {
 
         if (!isMounted) return; // verifica se o componente ainda está montado
 
-        setLoggedIn(true);
-        setEmailLogged(userData.email);
+        setLoggedIn(true); // permite login para o usuário
+        setEmailLogged(userData.email); // atualiza o state com dados direto do backend
 
         setCurrentUser(userData);
         setCards(cardsData);
@@ -199,22 +199,18 @@ function App() {
       // direto, é o único retorno assim
 
       if (data.token) {
-        onLogin(data.token, email); // atualiza estados e redireciona
+        // Limpa dados antigos de perfil de usuário
+        // Para reforço > a limpeza tbm é aplicada no logout
+        setCurrentUser({});
+        setCards([]);
+
+        // Atualiza token no state e localStorage com função utilitária
+        setAndStorageToken(data.token, setJwtToken);
       }
     } catch (error) {
       console.error(`Erro no login: ${error.message}`);
       throw error; // repassa para o hook de envio
     }
-  };
-
-  // Manipulador para login
-  const onLogin = (token, email) => {
-    setAndStorageToken(token, setJwtToken); // função utilitária: atualiza token na
-    // variável de estado e armazenamento local
-    setLoggedIn(true); // permite o login do usuário
-    setEmailLogged(email); // salva o e-mail do usuário no estado,
-    // compartilhado por contexto para acesso em todo o app
-    navigate('/', { replace: true }); // redireciona para a página principal
   };
 
   // Abre popup
