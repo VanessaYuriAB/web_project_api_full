@@ -98,6 +98,7 @@ function App() {
         }
       } catch {
         if (!isMounted) return;
+
         // Se o token for inválido ou ocorrer erro, desloga o usuário
         onSignOutRef.current(); // usa a ref para evitar dependência
       }
@@ -195,10 +196,15 @@ function App() {
 
   // Cadastra usuários
   const handleRegistration = async ({ email, password }) => {
-    await auth.register(email, password);
-    setIsSuccess(true); // define o tooltip de sucesso
-    setTooltip(true); // renderiza a tela com a msg de sucesso
-    navigate('/signin', { replace: true });
+    try {
+      await auth.register(email, password);
+      setIsSuccess(true); // define o tooltip de sucesso
+      setTooltip(true); // renderiza a tela com a msg de sucesso
+      navigate('/signin', { replace: true });
+    } catch (error) {
+      console.error(`Erro no cadastro do usuário: ${error.message}`);
+      throw error; // repassa para o hook de envio
+    }
   };
 
   // Loga usuários
@@ -207,16 +213,24 @@ function App() {
       return;
     }
 
-    const data = await auth.authorize(email, password); // obtém o
-    // token da resposta da função authorize
-    if (data.token) {
-      onLogin(data.token, email); // atualiza estados e redireciona
-    }
+    try {
+      const data = await auth.authorize(email, password); // obtém o token da
+      // resposta da função authorize, backend retorna com o objeto 'token'
+      // direto, é o único retorno assim
 
-    const [userData, cardsData] = await myApi.getServerUserAndCards();
-    if (userData && cardsData) {
-      setCurrentUser(userData); // atualiza dados de perfil do usuário atual
-      setCards(cardsData); // atualiza cartões
+      if (data.token) {
+        onLogin(data.token, email); // atualiza estados e redireciona
+      }
+
+      const [userData, cardsData] = await myApi.getServerUserAndCards();
+
+      if (userData && cardsData) {
+        setCurrentUser(userData); // atualiza dados de perfil do usuário atual
+        setCards(cardsData); // atualiza cartões
+      }
+    } catch (error) {
+      console.error(`Erro no login: ${error.message}`);
+      throw error; // repassa para o hook de envio
     }
   };
 

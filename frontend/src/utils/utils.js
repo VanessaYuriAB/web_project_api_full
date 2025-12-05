@@ -24,7 +24,8 @@ export const makeAuthRequest = async ({
 
     return await fetch(endpoint, options);
   } catch (error) {
-    throw new Error(`Erro na requisição para ${endpoint}: ${error.message}`);
+    throw new Error(`Erro na requisição para ${endpoint}: ${error.message}`); // esse bloco captura falhas do fetch
+    // (erros de rede, DNS, servidor offline) e adiciona contexto sobre qual endpoint falhou
   }
 };
 
