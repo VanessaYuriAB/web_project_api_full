@@ -7,20 +7,25 @@ import { myCards } from './constants';
 import { getToken } from './token';
 
 class Api {
-  constructor({ baseUrl, headers }) {
+  constructor({ baseUrl }) {
     this._baseUrl = baseUrl;
-    this._headers = headers;
+    // headers definido em método para utilização de token dinâmico
   }
 
+  // Método (privado) para definição do headers em tds requisições de Api
+  // Para definição dinâmica do token > sempre atualizado
+  _getHeaders = () => {
+    return {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    };
+  };
+
   // Método (privado) para realizar requisições à API
-  _makeRequest = async ({
-    endpoint,
-    headers = this._headers,
-    method,
-    requestBody,
-  }) => {
+  _makeRequest = async ({ endpoint, method, requestBody }) => {
     const options = {
-      headers,
+      headers: this._getHeaders(), // usa o headers dinâmico, já definindo a propriedade em tds as requisições que chamam _makeRequest,
       method,
       body: requestBody ? JSON.stringify(requestBody) : undefined, // adiciona e stringifica o corpo da requisição apenas se existir na requisição; se não, com a definição de undefined, o fetch ignora o body e a propriedade requestBody é completamente omitida do objeto options, não existindo na requisição
     };
@@ -149,13 +154,6 @@ class Api {
 }
 
 // Instância de Api: myApi (fetch)
-const myApi = new Api({
-  baseUrl: 'http://localhost:3000',
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${getToken()}`,
-  },
-});
+const myApi = new Api({ baseUrl: 'http://localhost:3000' });
 
 export default myApi;
