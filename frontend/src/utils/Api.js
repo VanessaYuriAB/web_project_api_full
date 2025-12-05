@@ -35,7 +35,8 @@ class Api {
       throw new Error(`Erro ${res.status}: ${res.statusText}`); // se o servidor
       // retornar um erro, lance o erro, a ser tratado na função de chamada do método
     } else {
-      return res.json();
+      const { data } = await res.json(); // // aguarda o parsing e desestrutura o objeto completo do backend
+      return data; // retorna apenas o objeto interno, com o conteúdo de cada requisição
     }
   };
 
