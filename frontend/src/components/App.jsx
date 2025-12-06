@@ -142,7 +142,9 @@ function App() {
   // Curte e descurte cards
   const handleCardLike = async (card) => {
     try {
-      const isLiked = card.isLiked;
+      const arrLikes = card.likes;
+
+      const isLiked = arrLikes.includes(currentUser._id);
 
       // !isLiked = ação inversa do estado atual de curtida - corresponde à
       // shouldLike no método toggleLikeCard
@@ -180,7 +182,7 @@ function App() {
       await auth.register(email, password);
       setIsSuccess(true); // define o tooltip de sucesso
       setTooltip(true); // renderiza a tela com a msg de sucesso
-      navigate('/signin', { replace: true });
+      navigate('/signin;', { replace: true });
     } catch (error) {
       console.error(`Erro no cadastro do usuário: ${error.message}`);
       throw error; // repassa para o hook de envio

@@ -12,8 +12,8 @@ function Card({
   onCardLike,
   onCardDelete,
 }) {
-  // Desestruturação do objeto card
-  const { isLiked } = card;
+  // Desestruturação do objeto card, extraindo propriedade de curtidas
+  const { likes } = card;
 
   // Contexto: obtém o usuário atual: assina o contexto CurrentUserContext
   const { currentUser } = useContext(CurrentUserContext);
@@ -21,10 +21,14 @@ function Card({
   // Para verificar se o cartão é do usuário atual
   const isCardOwner = currentUser._id === card.owner;
 
+  // Para verificar se o usuário logado curtiu o cartão
+  const isCardLiked = likes.length !== 0;
+  const isLikedFromCurrentUser = isCardLiked && likes.includes(currentUser._id);
+
   // Verificação para classe do botão like: a classe 'card__like-button_is-active'
   // será aplicada para mostrar que o botão está no status "curtir"
   const cardLikeButtonClassName = `card__like-btn ${
-    isLiked ? 'card__like-btn_active' : ''
+    isLikedFromCurrentUser ? 'card__like-btn_active' : ''
   }`;
 
   // Objeto para popup Image
