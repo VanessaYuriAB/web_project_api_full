@@ -95,7 +95,7 @@ function App() {
         setEmailLogged(userData.email); // atualiza o state com dados direto do backend
 
         setCurrentUser(userData);
-        setCards(cardsData);
+        setCards(cardsData.reverse());
 
         // Só navega se estiver em outra rota
         if (window.location.pathname !== '/') {
