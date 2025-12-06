@@ -44,16 +44,19 @@
 
 /* ----- BOTÃO DE EXCLUSÃO ----- */
 .card__trash-btn {
-  width: 18px;
-  height: 19.3px;
+  width: 23px;
+  height: 24.3px;
   background-image: url(/images/trash-btn.svg);
   z-index: 1;
   position: absolute;
+  background-position: center;
+  background-repeat: no-repeat;
   top: 18px;
   right: 15px;
-  background-color: transparent;
+  background-color: #000;
   border: none;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 .card__trash-btn:hover {
