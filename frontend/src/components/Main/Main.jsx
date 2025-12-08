@@ -41,11 +41,19 @@ function Main({
     <main className="content page__content">
       <section className="content__profile">
         <div className="profile__photo">
+          {/* caso o link da imagem não esteja mais acessível, onError trata informando o usuário e redefinindo para o padrão */}
           <img
             className="profile__img"
             src={currentUser.avatar}
             alt="Foto do perfil do usuário"
             aria-label="Foto de perfil"
+            onError={(e) => {
+              e.target.src =
+                'https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg';
+              alert(
+                'A imagem não pôde ser carregada, o link informado pode estar inacessível. O avatar foi redefinido para a imagem padrão do aplicativo.',
+              );
+            }}
           />
           <button
             className="profile__overlay"

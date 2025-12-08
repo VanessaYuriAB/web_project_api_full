@@ -55,10 +55,16 @@ function Card({
 
   return (
     <li className="card">
+      {/* caso o link da imagem não esteja mais acessível, onError trata informando o usuário */}
       <img
         className="card__image"
         src={card.link}
         alt={card.name}
+        onError={() => {
+          alert(
+            'A imagem não pôde ser carregada, o link informado pode estar inacessível. Você pode deletar o card e tentar novamente com um link válido.',
+          );
+        }}
         onClick={() => handleOpenPopup(imagePopup)}
       />
       {isCardOwner && (
