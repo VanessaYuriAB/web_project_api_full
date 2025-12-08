@@ -4,6 +4,8 @@ const isEmail = require('validator/lib/isEmail');
 
 const bcrypt = require('bcryptjs');
 
+const UnauthorizedError = require('../errors/unauthorized');
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -46,6 +48,7 @@ const userSchema = new mongoose.Schema({
 });
 
 // Método personalizado do Mongoose, definido na propriedade statics (estáticos) do esquema: encontre o usuário pelas credenciais
+// Para uso no controlador de login
 userSchema.statics.findUserByCredentials = async function findUserByCredentials(
   email,
   password,
@@ -53,17 +56,15 @@ userSchema.statics.findUserByCredentials = async function findUserByCredentials(
   const userInDB = await this.findOne({ email })
     .select('+password')
     .orFail(() => {
-      const err = new Error('E-mail ou senha incorretos');
-      err.name = 'Unauthorized';
-      throw err;
+      // Retorna erro 401 pq o método é para verificação de permissão para login > intuito de não revelar se o e-mail existe ou não, por segurança
+      // Evita enumeration attacks (ataques que descobrem quais e-mails estão cadastrados)
+      throw new UnauthorizedError('E-mail ou senha incorretos');
     });
 
   const matchedUser = await bcrypt.compare(password, userInDB.password);
 
   if (!matchedUser) {
-    const err = new Error('E-mail ou senha incorretos');
-    err.name = 'Unauthorized';
-    throw err;
+    throw new UnauthorizedError('E-mail ou senha incorretos');
   }
 
   // Autenticação bem-sucedida: retorna o objeto do usuário no banco de dados

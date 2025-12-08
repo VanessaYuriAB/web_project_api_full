@@ -4,7 +4,10 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
-const { handleAsync } = require('../utils/utils');
+const handleAsync = require('../utils/utils');
+
+const NotFoundError = require('../errors/not-found-error');
+const ConflictError = require('../errors/conflict');
 
 // Função genérica para atualizações de perfil
 const updateProfileFields = async (userId, fieldsToUpdate) => {
@@ -12,11 +15,9 @@ const updateProfileFields = async (userId, fieldsToUpdate) => {
     new: true,
     runValidators: true,
   }).orFail(() => {
-    const err = new Error(
-      'Erro ao atualizar perfil, não existe usuário com o id solicitado',
+    throw new NotFoundError(
+      'Erro ao atualizar perfil, não existe usuário com o id solicitado (Recurso não encontrado)',
     );
-    err.name = 'NotFoundError';
-    throw err;
   });
 
   return updatedUser;
@@ -34,11 +35,9 @@ const getUsers = async (req, res) => {
 const getUserById = async (req, res) => {
   const { userId } = req.params;
   const user = await User.findById(userId).orFail(() => {
-    const err = new Error(
-      'Erro ao localizar usuário, Recurso não encontrado: não existe usuário com o id solicitado',
+    throw new NotFoundError(
+      'Erro ao localizar usuário, não existe usuário com o id solicitado (Recurso não encontrado)',
     );
-    err.name = 'NotFoundError';
-    throw err;
   });
   res.send({ data: user });
 };
@@ -48,20 +47,11 @@ const getUserById = async (req, res) => {
 const createUser = async (req, res) => {
   const { name, about, avatar, email, password } = req.body;
 
-  // Validação básica para reforço de segurança
-  if (!email || !password) {
-    const err = new Error('Email e senha são obrigatórios');
-    err.name = 'ValidationError';
-    throw err;
-  }
-
   // Verificação de duplicidade de e-mail
   const duplicateEmail = await User.findOne({ email });
 
   if (duplicateEmail) {
-    const err = new Error('E-mail já cadastrado');
-    err.name = 'Conflict';
-    throw err;
+    throw new ConflictError('E-mail já cadastrado');
   }
 
   // codificando o hash da senha
@@ -118,9 +108,9 @@ const getUser = async (req, res) => {
   const { _id } = req.user;
 
   const loggedUser = await User.findById(_id).orFail(() => {
-    const err = new Error('Erro ao localizar usuário, id não encontrado');
-    err.name = 'NotFoundError';
-    throw err;
+    throw new NotFoundError(
+      'Erro ao localizar usuário, não existe usuário com o id solicitado (Recurso não encontrado)',
+    );
   });
 
   res.send({ data: loggedUser });

@@ -1,6 +1,9 @@
 const Card = require('../models/card');
 
-const { handleAsync } = require('../utils/utils');
+const handleAsync = require('../utils/utils');
+
+const NotFoundError = require('../errors/not-found-error');
+const ForbiddenError = require('../errors/forbidden');
 
 // O manipulador de solicitação getCards
 // Erros: Internal server
@@ -25,19 +28,15 @@ const deleteCardById = async (req, res) => {
   const { cardId } = req.params;
 
   const cardToDelete = await Card.findById(cardId).orFail(() => {
-    const err = new Error(
-      'Erro ao deletar cartão, não existe cartão com o id solicitado',
+    throw new NotFoundError(
+      'Erro ao deletar cartão, não existe cartão com o id solicitado (Recurso não encontrado)',
     );
-    err.name = 'NotFoundError';
-    throw err;
   });
 
   if (req.user._id !== cardToDelete.owner.toString()) {
-    const err = new Error(
+    throw new ForbiddenError(
       'Acesso negado, você não possui permissão para deleter este cartão',
     );
-    err.name = 'Forbidden';
-    throw err;
   }
 
   const deletedCard = await Card.findByIdAndDelete(cardId);
@@ -55,11 +54,9 @@ const likeCard = async (req, res) => {
     { $addToSet: { likes: req.user._id } },
     { new: true, runValidators: true },
   ).orFail(() => {
-    const err = new Error(
-      'Erro ao curtir cartão, Recurso não encontrado: não existe cartão com o id solicitado',
+    throw new NotFoundError(
+      'Erro ao curtir cartão, não existe cartão com o id solicitado (Recurso não encontrado)',
     );
-    err.name = 'NotFoundError';
-    throw err;
   });
   res.send({ data: likedCard });
 };
@@ -74,11 +71,9 @@ const unlikeCard = async (req, res) => {
     { $pull: { likes: req.user._id } },
     { new: true },
   ).orFail(() => {
-    const err = new Error(
-      'Erro ao descurtir cartão, Recurso não encontrado: não existe cartão com o id solicitado',
+    throw new NotFoundError(
+      'Erro ao descurtir cartão, não existe cartão com o id solicitado (Recurso não encontrado)',
     );
-    err.name = 'NotFoundError';
-    throw err;
   });
   res.send({ data: unlikedCard });
 };
