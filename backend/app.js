@@ -8,9 +8,11 @@ const cors = require('cors');
 
 const { errors } = require('celebrate');
 
+const celebrateForSignUpAndIn = require('./middlewares/validators/celebrateForSignUpAndIn');
+
 const { createUser, login } = require('./controllers/users');
 
-const auth = require('./middleware/auth');
+const auth = require('./middlewares/auth');
 
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
@@ -99,9 +101,9 @@ app.options(/.*/, cors(corsOptions)); // regex /.*/ para qlqr caminho,
 // -------------------------------------
 
 // Rota para cadastro
-app.post('/signup', createUser);
+app.post('/signup', celebrateForSignUpAndIn, createUser);
 // Rota para login
-app.post('/signin', login);
+app.post('/signin', celebrateForSignUpAndIn, login);
 
 // Middleware de autorização para persistência do login
 app.use(auth);
