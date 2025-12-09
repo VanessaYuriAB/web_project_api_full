@@ -8,6 +8,8 @@ const cors = require('cors');
 
 const { errors } = require('celebrate');
 
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+
 const celebrateForSignUpAndIn = require('./middlewares/validators/celebrateForSignUpAndIn');
 const celebrateForAuth = require('./middlewares/validators/celebrateForAuth');
 
@@ -26,23 +28,6 @@ const { PORT = 3000 } = process.env;
 // ------------------------
 // Middlewares
 // ------------------------
-
-// Middleware para registrar detalhes de cada requisição
-app.use((req, res, next) => {
-  const { method, url } = req;
-  const timestamp = new Date().toISOString();
-  console.log(`[${timestamp}] ${method} ${url}`);
-
-  const start = Date.now();
-
-  // Quando a resposta terminar
-  res.on('finish', () => {
-    const duration = Date.now() - start;
-    console.log(`${res.statusCode} - ${duration}ms`);
-  });
-
-  next();
-});
 
 // Middleware para analisar o corpo das requisições como JSON
 app.use(express.json());
@@ -97,6 +82,17 @@ app.use(cors(corsOptions));
 app.options(/.*/, cors(corsOptions)); // regex /.*/ para qlqr caminho,
 // evita erro path-to-regexp que ocorre com '*' ou '(.*)' em versões recentes do Express
 
+// ------------------
+// Winston (requests)
+// ------------------
+
+// Habilita registrador de solicitações
+app.use(requestLogger);
+
+// -------------
+// Rotas
+// -------------
+
 // -------------------------------------
 // Rotas que não precisam de autorização
 // -------------------------------------
@@ -120,9 +116,16 @@ app.use('/users', usersRouter);
 // Rota que define o prefixo /cards
 app.use('/cards', cardsRouter);
 
-// ---------------------------------
-// Rotas para tratamento de erros
-// ---------------------------------
+// ------------------
+// Winston (errors)
+// ------------------
+
+// Habilita registrador de erros
+app.use(errorLogger);
+
+// ------------------------
+// Tratamento de erros
+// ------------------------
 
 // Tratamento de erros do celebrate (Joi)
 app.use(errors());
