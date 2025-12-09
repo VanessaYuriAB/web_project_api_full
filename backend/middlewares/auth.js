@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
-const ForbiddenError = require('../errors/forbidden');
-const UnauthorizedError = require('../errors/unauthorized');
+const ForbiddenError = require('../errors/ForbiddenError');
+const UnauthorizedError = require('../errors/UnauthorizedError');
 
 module.exports = (req, res, next) => {
   // Extrai 'authorization' do cabeçalho, onde armazenamos o token no frontend, definido em frontend/src/utils/utils.js

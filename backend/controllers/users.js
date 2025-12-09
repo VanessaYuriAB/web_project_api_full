@@ -6,8 +6,8 @@ const User = require('../models/user');
 
 const handleAsync = require('../utils/utils');
 
-const NotFoundError = require('../errors/not-found-error');
-const ConflictError = require('../errors/conflict');
+const NotFoundError = require('../errors/NotFoundError');
+const ConflictError = require('../errors/ConflictError');
 
 // Função genérica para atualizações de perfil
 const updateProfileFields = async (userId, fieldsToUpdate) => {

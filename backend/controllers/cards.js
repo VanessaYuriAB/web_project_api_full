@@ -2,8 +2,8 @@ const Card = require('../models/card');
 
 const handleAsync = require('../utils/utils');
 
-const NotFoundError = require('../errors/not-found-error');
-const ForbiddenError = require('../errors/forbidden');
+const NotFoundError = require('../errors/NotFoundError');
+const ForbiddenError = require('../errors/ForbiddenError');
 
 // O manipulador de solicitação getCards
 // Erros: Internal server
