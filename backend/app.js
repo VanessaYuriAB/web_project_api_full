@@ -6,6 +6,8 @@ const dotenv = require('dotenv');
 
 const cors = require('cors');
 
+const { errors } = require('celebrate');
+
 const { createUser, login } = require('./controllers/users');
 
 const auth = require('./middleware/auth');
@@ -116,6 +118,9 @@ app.use('/cards', cardsRouter);
 // ---------------------------------
 // Rotas para tratamento de erros
 // ---------------------------------
+
+// Tratamento de erros do celebrate (Joi)
+app.use(errors());
 
 // Middleware para erros 404 - rotas não encontradas
 app.use((req, res) => {
