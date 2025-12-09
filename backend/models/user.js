@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const isEmail = require('validator/lib/isEmail');
+const isURL = require('validator/lib/isURL');
 
 const bcrypt = require('bcryptjs');
 
@@ -22,10 +23,10 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
     validate: {
-      validator(v) {
-        return /^(https?:\/\/)(www\.)?\S+(\/\S+)*(\/)?#?$/.test(v);
-      },
-      message: (props) => `${props.value} is not a valid URL!`,
+      validator: (v) =>
+        // Apenas URLs com http ou https, evitando URLs sem protocolo
+        isURL(v, { protocols: ['http', 'https'], require_protocol: true }),
+      message: (props) => `${props.value} is not a valid link!`,
     },
     default:
       'https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg',
