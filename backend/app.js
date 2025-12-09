@@ -9,6 +9,7 @@ const cors = require('cors');
 const { errors } = require('celebrate');
 
 const celebrateForSignUpAndIn = require('./middlewares/validators/celebrateForSignUpAndIn');
+const celebrateForAuth = require('./middlewares/validators/celebrateForAuth');
 
 const { createUser, login } = require('./controllers/users');
 
@@ -105,8 +106,10 @@ app.post('/signup', celebrateForSignUpAndIn, createUser);
 // Rota para login
 app.post('/signin', celebrateForSignUpAndIn, login);
 
-// Middleware de autorização para persistência do login
-app.use(auth);
+// Middleware celebrate de autenticação: para validar todas as solicitações recebidas,
+// garantindo que o token cabeçalho esteja presente e corresponda à expressão regular fornecida
+// Middleware de autorização com persistência do login
+app.use(celebrateForAuth, auth);
 
 // ---------------------------------
 // Rotas que precisam de autorização
@@ -147,9 +150,12 @@ app.use((err, req, res, next) => {
       .send({ message: 'Dado(s) inválido(s) ou inexistente(s)' });
   }
 
-  // Fallback para qualquer outro erro usando statusCode (quando definido pelas classes personalizadas: unauthorized, forbidden, not found e conflict)
+  // Fallback para qualquer outro erro usando statusCode (quando definido pelas classes
+  // personalizadas: unauthorized, forbidden, not found e conflict)
   // Se não tiver statusCode definido, assume 500
-  // Uma exceção pode ser gerada ao tentar acessar o banco de dados ou o código pode simplesmente travar, não tendo, o erro, a propriedade statusCode. Esses casos, neste projeto, são considerados como um erro do servidor (500), com status e mensagem padrões definidos
+  // Uma exceção pode ser gerada ao tentar acessar o banco de dados ou o código pode simplesmente
+  // travar, não tendo, o erro, a propriedade statusCode. Esses casos, neste projeto, são considerados
+  // como um erro do servidor (500), com status e mensagem padrões definidos
   const { statusCode = 500, message = 'Ocorreu um erro no servidor' } = err;
 
   return res.status(statusCode).send({ message });
