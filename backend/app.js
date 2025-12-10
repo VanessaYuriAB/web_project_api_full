@@ -19,6 +19,7 @@ const auth = require('./middlewares/auth');
 
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
+const ForbiddenError = require('./errors/ForbiddenError');
 
 dotenv.config();
 
@@ -64,8 +65,9 @@ const corsOptions = {
     // Caso contrário, bloqueia
 
     // Cria um erro customizado com name
-    const corsError = new Error(`Origem não permitida pelo CORS, ${origin}`);
-    corsError.name = 'Forbidden';
+    const corsError = new ForbiddenError(
+      `Origem não permitida pelo CORS, ${origin}`,
+    );
     return callback(corsError);
   }, // origens permitidas
 
