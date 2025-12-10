@@ -1,5 +1,7 @@
 const express = require('express');
 
+const helmet = require('helmet');
+
 const mongoose = require('mongoose');
 
 const dotenv = require('dotenv');
@@ -30,7 +32,43 @@ const { PORT = 3000 } = process.env;
 // Middlewares
 // ------------------------
 
+// -----------
+// Helmet
+// -----------
+
+// Configuração com opções específicas
+
+// Baseado em diretivas definidas no frontend para CSP
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        connectSrc: [
+          "'self'",
+          'http://localhost:3000',
+          'https://api.aroundtheusa.sevencomets.com',
+        ],
+        imgSrc: ["'self'", 'data:', 'https:'],
+        scriptSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+      },
+    },
+  }),
+);
+
+// Para 'Referrer Policy'
+app.use(helmet.referrerPolicy({ policy: 'same-origin' })); // o cabeçalho 'Referer'
+// normalmente informa a URL da página anterior quando você navega para outra >
+// 'same-origin' envia o referer apenas para o mesmo domínio
+
+// --------------
+// Parsing JSON
+// --------------
+
 // Middleware para analisar o corpo das requisições como JSON
+// Converte automaticamente o corpo da requisição (que chega como texto) em um objeto
+// JavaScript acessível via req.body
 app.use(express.json());
 
 // -------------
