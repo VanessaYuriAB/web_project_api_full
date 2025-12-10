@@ -95,7 +95,7 @@ function Register({ tooltip, setTooltip, isSuccess, setIsSuccess }) {
           placeholder="Senha"
           required
           pattern="^(?=.*[a-z])(?=.*\d)[a-zA-Z\d]{8,}$"
-          title="Digite uma senha com, no mínimo, 8 caracteres - incluindo, pelo menos, uma letra minúscula e um número."
+          title="Apenas letras e números, mínimo 8 caracteres - pelo menos, uma letra minúscula e um número."
           value={newPassword}
           onChange={handleNewPasswordChange}
           aria-label="Senha do novo usuário"
