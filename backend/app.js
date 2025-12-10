@@ -23,6 +23,8 @@ const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const ForbiddenError = require('./errors/ForbiddenError');
 
+const browserVersion = require('./middlewares/browserVersion');
+
 dotenv.config();
 
 const app = express();
@@ -31,6 +33,13 @@ const { PORT = 3000 } = process.env;
 // ------------------------
 // Middlewares
 // ------------------------
+
+// -----------
+// Browser
+// -----------
+
+// Verificação da versão do navegador > medida de segurança
+app.use(browserVersion);
 
 // -----------
 // Helmet
