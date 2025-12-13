@@ -10,6 +10,8 @@ const cors = require('cors');
 
 const { errors } = require('celebrate');
 
+const limiter = require('./middlewares/rateLimit');
+
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const celebrateForSignUpAndIn = require('./middlewares/validators/celebrateForSignUpAndIn');
@@ -33,6 +35,13 @@ const { PORT = 3000 } = process.env;
 // ------------------------
 // Middlewares
 // ------------------------
+
+// -----------
+// Rate limit
+// -----------
+
+// Aplica o limitador de taxa
+app.use(limiter);
 
 // -----------
 // Browser
