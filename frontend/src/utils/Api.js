@@ -154,6 +154,8 @@ class Api {
 }
 
 // Instância de Api: myApi (fetch)
-const myApi = new Api({ baseUrl: 'http://localhost:3000' });
+const apiBaseUrl = import.meta.env.VITE_API_URL;
+
+const myApi = new Api({ baseUrl: apiBaseUrl });
 
 export default myApi;

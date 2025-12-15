@@ -9,12 +9,12 @@ import {
 } from '@utils/utils.js';
 
 // BASE_URL da API
-export const BASE_URL = 'http://localhost:3000';
+const apiBaseUrl = import.meta.env.VITE_API_URL;
 
 // POST - /signup — para registro de usuário
 export const register = async (email, password) => {
   const res = await makeAuthRequest({
-    endpoint: `${BASE_URL}/signup`,
+    endpoint: `${apiBaseUrl}/signup`,
     method: 'POST',
     reqBody: { email, password },
   });
@@ -61,7 +61,7 @@ export const register = async (email, password) => {
 // POST - /signin — para autorização de usuário
 export const authorize = async (email, password) => {
   const res = await makeAuthRequest({
-    endpoint: `${BASE_URL}/signin`,
+    endpoint: `${apiBaseUrl}/signin`,
     method: 'POST',
     reqBody: { email, password },
   });
