@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 
-const ForbiddenError = require('../errors/ForbiddenError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
@@ -8,13 +7,6 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 module.exports = (req, res, next) => {
   // Extrai 'authorization' do cabeçalho, onde armazenamos o token no frontend, definido em frontend/src/utils/utils.js
   const { authorization } = req.headers;
-
-  // Validação básica do cabeçalho do token
-  if (!authorization || !authorization.startsWith('Bearer ')) {
-    return next(
-      new ForbiddenError('Acesso negado, sem permissão para o recurso'),
-    );
-  }
 
   // Obtém apenas o token, substituindo o 'Bearer' do valor da string do cabeçalho definido no front por nenhum valor para removê-lo, deixando apenas o JWT
   const token = authorization.replace('Bearer ', '');
