@@ -9,6 +9,8 @@ const handleAsync = require('../utils/utils');
 const NotFoundError = require('../errors/NotFoundError');
 const ConflictError = require('../errors/ConflictError');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
+
 // Função genérica para atualizações de perfil
 const updateProfileFields = async (userId, fieldsToUpdate) => {
   const updatedUser = await User.findByIdAndUpdate(userId, fieldsToUpdate, {
@@ -95,9 +97,11 @@ const login = async (req, res) => {
   const userInDB = await User.findUserByCredentials(email, password);
 
   // Geração do JWT para manter usuários logados após autenticação, com expiração em uma semana
-  const token = jwt.sign({ _id: userInDB._id }, 'secret-key', {
-    expiresIn: '7d',
-  });
+  const token = jwt.sign(
+    { _id: userInDB._id },
+    NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+    { expiresIn: '7d' },
+  );
 
   // Retornando o token JWT
   res.send({ token });

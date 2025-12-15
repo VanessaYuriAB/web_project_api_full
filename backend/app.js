@@ -30,55 +30,11 @@ const browserVersion = require('./middlewares/browserVersion');
 dotenv.config();
 
 const app = express();
-const { PORT = 3000 } = process.env;
+const { PORT, CORS_ORIGIN, CSP_CONNECT_SRC } = process.env;
 
 // ------------------------
 // Middlewares
 // ------------------------
-
-// -----------
-// Rate limit
-// -----------
-
-// Aplica o limitador de taxa
-app.use(limiter);
-
-// -----------
-// Browser
-// -----------
-
-// Verificação da versão do navegador > medida de segurança
-app.use(browserVersion);
-
-// -----------
-// Helmet
-// -----------
-
-// Configuração com opções específicas
-
-// Baseado em diretivas definidas no frontend para CSP
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        connectSrc: [
-          "'self'",
-          'http://localhost:3000',
-          'https://api.aroundtheusa.sevencomets.com',
-        ],
-        imgSrc: ["'self'", 'data:', 'https:'],
-        scriptSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-      },
-    },
-  }),
-);
-
-// Para 'Referrer Policy'
-app.use(helmet.referrerPolicy({ policy: 'same-origin' })); // o cabeçalho 'Referer'
-// normalmente informa a URL da página anterior quando você navega para outra >
-// 'same-origin' envia o referer apenas para o mesmo domínio
 
 // --------------
 // Parsing JSON
@@ -87,20 +43,20 @@ app.use(helmet.referrerPolicy({ policy: 'same-origin' })); // o cabeçalho 'Refe
 // Middleware para analisar o corpo das requisições como JSON
 // Converte automaticamente o corpo da requisição (que chega como texto) em um objeto
 // JavaScript acessível via req.body
+// Em primeiro, pq não altera cabeçalhos críticos
 app.use(express.json());
 
 // -------------
 // Cors
 // -------------
 
+// Precisa vir antes de qualquer middleware que possa bloquear ou modificar a resposta
+
+// '.split(',')' para transformar a string em array
+// '.map()' com 'trim()' para remover qlqr espaço em branco que possa ter
+const allowedCors = CORS_ORIGIN.split(',').map((origin) => origin.trim());
+
 // Configuração com opções específicas
-
-// Array de domínios a partir dos quais são permitidas solicitações
-const allowedCors = [
-  'http://localhost:3001',
-  'https://aroundtheusa.sevencomets.com',
-];
-
 const corsOptions = {
   // O callback é uma função fornecida pelo middleware cors para indicar se a origem é permitida
   // Ele espera dois parâmetros: callback(error, allow)
@@ -140,6 +96,48 @@ app.use(cors(corsOptions));
 app.options(/.*/, cors(corsOptions)); // regex /.*/ para qlqr caminho,
 // evita erro path-to-regexp que ocorre com '*' ou '(.*)' em versões recentes do Express
 
+// -----------
+// Helmet
+// -----------
+
+// Depois do CORS, para não sobrescrever cabeçalhos
+
+// Configuração com opções específicas
+
+// 'contentSecurityPolicy' espera um array de strings para cada diretiva (como connectSrc)
+// No .env armazenamos como uma única string, então precisamos transformar em array
+// '.map()' com 'trim()' para limpar cd item, removendo espaços extras, se houver
+const connectSrcUrls = CSP_CONNECT_SRC.split(',').map((url) => url.trim());
+
+// Baseado em diretivas definidas no frontend para CSP
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        connectSrc: ["'self'", ...connectSrcUrls],
+        imgSrc: ["'self'", 'data:', 'https:'],
+        scriptSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+      },
+    },
+  }),
+);
+
+// Para 'Referrer Policy'
+app.use(helmet.referrerPolicy({ policy: 'same-origin' })); // o cabeçalho 'Referer'
+// normalmente informa a URL da página anterior quando você navega para outra >
+// 'same-origin' envia o referer apenas para o mesmo domínio
+
+// -----------
+// Rate limit
+// -----------
+
+// Depois do CORS, para não bloquear preflight
+
+// Aplica o limitador de taxa
+app.use(limiter);
+
 // ------------------
 // Winston (requests)
 // ------------------
@@ -147,30 +145,43 @@ app.options(/.*/, cors(corsOptions)); // regex /.*/ para qlqr caminho,
 // Habilita registrador de solicitações
 app.use(requestLogger);
 
+// -----------
+// Browser
+// -----------
+
+// Verificação da versão do navegador > medida de segurança
+app.use(browserVersion);
+
 // -------------
 // Rotas
 // -------------
 
-// -------------------------------------
-// Rotas que não precisam de autorização
-// -------------------------------------
+// --------------------
+// Rotas públicas
+// --------------------
 
 // Rota para cadastro
 app.post('/signup', celebrateForSignUpAndIn, createUser);
+
 // Rota para login
 app.post('/signin', celebrateForSignUpAndIn, login);
+
+// --------------------------
+// Autenticação e validação
+// --------------------------
 
 // Middleware celebrate de autenticação: para validar todas as solicitações recebidas,
 // garantindo que o token cabeçalho esteja presente e corresponda à expressão regular fornecida
 // Middleware de autorização com persistência do login
 app.use(celebrateForAuth, auth);
 
-// ---------------------------------
-// Rotas que precisam de autorização
-// ---------------------------------
+// ------------------
+// Rotas privadas
+// ------------------
 
 // Rota que define o prefixo /users
 app.use('/users', usersRouter);
+
 // Rota que define o prefixo /cards
 app.use('/cards', cardsRouter);
 
@@ -229,9 +240,7 @@ app.use((err, req, res, next) => {
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
-    console.log(
-      'Connected to MongoDB Atlas, o nome do banco do dados é "teste"',
-    );
+    console.log(`Connected to MongoDB Atlas, ${process.env.DB_NAME}`);
   })
   .catch((err) => {
     console.error('Error connecting to MongoDB:', err);

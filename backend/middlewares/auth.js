@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const ForbiddenError = require('../errors/ForbiddenError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
+
 module.exports = (req, res, next) => {
   // Extrai 'authorization' do cabeçalho, onde armazenamos o token no frontend, definido em frontend/src/utils/utils.js
   const { authorization } = req.headers;
@@ -23,7 +25,10 @@ module.exports = (req, res, next) => {
   try {
     // Verificação do token, retornando o payload decodificado desse token, no caso de sucesso
     // Em caso de insucesso, o return do catch interrompe o fluxo (se houver erro)
-    payload = jwt.verify(token, 'secret-key');
+    payload = jwt.verify(
+      token,
+      NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+    );
   } catch (err) {
     return next(
       new UnauthorizedError('Token inválido ou expirado, não autorizado'),
