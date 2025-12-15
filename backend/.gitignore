@@ -35,7 +35,10 @@ Thumbs.db
 
 # AMBIENTE
 # Variáveis sensíveis
-.env*
+.env
+.env.local
+.env.development
+.env.production
 
 # Husky
 .husky/
