@@ -8,8 +8,7 @@ const handleAsync = require('../utils/utils');
 
 const NotFoundError = require('../errors/NotFoundError');
 const ConflictError = require('../errors/ConflictError');
-
-const { NODE_ENV, JWT_SECRET } = process.env;
+const ConfigError = require('../errors/ConfigError');
 
 // Função genérica para atualizações de perfil
 const updateProfileFields = async (userId, fieldsToUpdate) => {
@@ -96,10 +95,15 @@ const login = async (req, res) => {
 
   const userInDB = await User.findUserByCredentials(email, password);
 
+  // Validação antes de gerar o token
+  if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
+    throw new ConfigError('JWT_SECRET é obrigatório em produção!');
+  }
+
   // Geração do JWT para manter usuários logados após autenticação, com expiração em uma semana
   const token = jwt.sign(
     { _id: userInDB._id },
-    NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+    process.env.JWT_SECRET || 'dev-secret',
     { expiresIn: '7d' },
   );
 

@@ -23,28 +23,24 @@ const auth = require('./middlewares/auth');
 
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
+
 const ForbiddenError = require('./errors/ForbiddenError');
+const ConfigError = require('./errors/ConfigError');
 
 const browserVersion = require('./middlewares/browserVersion');
 
 dotenv.config();
 
 const app = express();
-const { PORT, CORS_ORIGIN, CSP_CONNECT_SRC } = process.env;
+
+const NODE_ENV = process.env.NODE_ENV || 'development';
+const PORT = process.env.PORT || 3000;
+const CORS_ORIGIN = process.env.CORS_ORIGIN || 'http://localhost:3001';
+const CSP_CONNECT_SRC = process.env.CSP_CONNECT_SRC || 'http://localhost:3000';
 
 // ------------------------
 // Middlewares
 // ------------------------
-
-// --------------
-// Parsing JSON
-// --------------
-
-// Middleware para analisar o corpo das requisições como JSON
-// Converte automaticamente o corpo da requisição (que chega como texto) em um objeto
-// JavaScript acessível via req.body
-// Em primeiro, pq não altera cabeçalhos críticos
-app.use(express.json());
 
 // -------------
 // Cors
@@ -54,7 +50,7 @@ app.use(express.json());
 
 // '.split(',')' para transformar a string em array
 // '.map()' com 'trim()' para remover qlqr espaço em branco que possa ter
-const allowedCors = CORS_ORIGIN.split(',').map((origin) => origin.trim());
+const allowedCors = CORS_ORIGIN.split(',').map((url) => url.trim());
 
 // Configuração com opções específicas
 const corsOptions = {
@@ -135,6 +131,11 @@ app.use(helmet.referrerPolicy({ policy: 'same-origin' })); // o cabeçalho 'Refe
 
 // Depois do CORS, para não bloquear preflight
 
+// Validação antes de aplicar o rate limit
+if (NODE_ENV === 'production' && !process.env.RATE_LIMIT_MAX) {
+  throw new ConfigError('RATE_LIMIT_MAX é obrigatório em produção!');
+}
+
 // Aplica o limitador de taxa
 app.use(limiter);
 
@@ -151,6 +152,15 @@ app.use(requestLogger);
 
 // Verificação da versão do navegador > medida de segurança
 app.use(browserVersion);
+
+// --------------
+// Parsing JSON
+// --------------
+
+// Middleware para analisar o corpo das requisições como JSON
+// Converte automaticamente o corpo da requisição (que chega como texto) em um objeto
+// JavaScript acessível via req.body
+app.use(express.json());
 
 // -------------
 // Rotas
@@ -222,6 +232,13 @@ app.use((err, req, res, next) => {
       .send({ message: 'Dado(s) inválido(s) ou inexistente(s)' });
   }
 
+  // Quando variáveis de ambiente não são configuradas no ambiente de produção
+  if (err.name === 'ConfigError') {
+    return res
+      .status(500)
+      .send({ message: `Erro de configuração do servidor: ${err.message}` });
+  }
+
   // Fallback para qualquer outro erro usando statusCode (quando definido pelas classes
   // personalizadas: unauthorized, forbidden, not found e conflict)
   // Se não tiver statusCode definido, assume 500
@@ -237,10 +254,17 @@ app.use((err, req, res, next) => {
 // Conexão com MongoDB
 // ------------------------
 
+// Validação antes de iniciar a aplicação
+if (NODE_ENV === 'production' && !process.env.MONGODB_URI) {
+  throw new ConfigError('MONGODB_URI é obrigatório em produção!');
+}
+
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/aroundbfull')
   .then(() => {
-    console.log(`Connected to MongoDB Atlas, ${process.env.DB_NAME}`);
+    console.log(
+      `Connected to MongoDB, ${process.env.DB_NAME ? `${process.env.DB_NAME}` : 'o nome do banco de dados é aroundbfull, no local'}`,
+    );
   })
   .catch((err) => {
     console.error('Error connecting to MongoDB:', err);
