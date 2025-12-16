@@ -64,7 +64,7 @@ function NewCard({ handleClosePopup, popup }) {
         placeholder="Título"
         minLength="2"
         maxLength="30"
-        pattern="^[A-Za-zÀ-ÿ0-9\s]+$"
+        pattern="^[^<>]+$"
         required
         ref={placeRef}
         aria-label="Título do cartão"

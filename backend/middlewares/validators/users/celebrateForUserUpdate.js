@@ -6,12 +6,12 @@ const celebrateForUserUpdate = celebrate({
       .required()
       .min(2)
       .max(40)
-      .pattern(/^[A-Za-zÀ-ÿ\s]+$/),
+      .pattern(/^[^<>]+$/),
     about: Joi.string()
       .required()
       .min(2)
       .max(200)
-      .pattern(/^[A-Za-zÀ-ÿ0-9\s]+$/),
+      .pattern(/^[^<>]+$/),
   }),
 });
 

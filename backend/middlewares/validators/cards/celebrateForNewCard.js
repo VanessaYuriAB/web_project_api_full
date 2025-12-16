@@ -5,7 +5,7 @@ const celebrateForNewCard = celebrate({
   body: Joi.object().keys({
     name: Joi.string()
       .required()
-      .pattern(/^[A-Za-zÀ-ÿ0-9\s]+$/)
+      .pattern(/^[^<>]+$/)
       .min(2)
       .max(30),
     link: Joi.string().required().custom(validateURL),

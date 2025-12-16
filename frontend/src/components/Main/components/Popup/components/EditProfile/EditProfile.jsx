@@ -61,7 +61,7 @@ function EditProfile({ handleClosePopup }) {
         placeholder="Nome"
         minLength="2"
         maxLength="40"
-        pattern="^[A-Za-zÀ-ÿ\s]+$"
+        pattern="^[^<>]+$"
         required
         value={name}
         onChange={handleNameChange}
@@ -79,7 +79,7 @@ function EditProfile({ handleClosePopup }) {
         placeholder="Sobre mim"
         minLength="2"
         maxLength="200"
-        pattern="^[A-Za-zÀ-ÿ0-9\s]+$"
+        pattern="^[^<>]+$"
         required
         value={about}
         onChange={handleAboutChange}

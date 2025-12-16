@@ -12,14 +12,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     minlength: 2,
     maxlength: 40,
-    match: /^[A-Za-zÀ-ÿ\s]+$/,
+    match: /^[^<>]+$/,
     default: 'Jacques Cousteau',
   },
   about: {
     type: String,
     minlength: 2,
     maxlength: 200,
-    match: /^[A-Za-zÀ-ÿ0-9\s]+$/,
+    match: /^[^<>]+$/,
     default: 'Explorer',
   },
   avatar: {
@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 8, // conforme está na msg de erro do input, no frontend
-    match: /^(?=.*[a-z])(?=.*\d)[a-zA-Z\d]{8,}$/, // regex definida no input, frontend, e na validação com celebrate
+    // sem definição de regex aqui, pq verificaria o hash da senha > regex definida no input, frontend, e na validação com celebrate
     select: false, // o hash de senha não será retornado do banco de dados por padrão
   },
 });
