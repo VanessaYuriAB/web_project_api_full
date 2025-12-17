@@ -166,6 +166,14 @@ app.use(express.json());
 // Rotas
 // -------------
 
+// Teste de falha do servidor
+// Remover o código após a revisão
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('O servidor travará agora');
+  }, 0);
+});
+
 // --------------------
 // Rotas públicas
 // --------------------
