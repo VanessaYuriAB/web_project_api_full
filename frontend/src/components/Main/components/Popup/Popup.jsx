@@ -10,17 +10,21 @@ export default function Popup(props) {
   // Fechamento do popup pela tecla 'Esc', ativado sempre que o popup for aberto
   useEffect(() => {
     const handleEscClose = (evt) => {
-      const keyIsEsc = evt.code === 'Escape'; // valor de código para eventos de teclado (Windowns, Mac, Linux e Firefox para Android)
+      const keyIsEsc = evt.code === 'Escape'; // valor de código para eventos de teclado
+      // (Windowns, Mac, Linux e Firefox para Android)
 
-      if (popup && keyIsEsc) onClose(); // se o popup estiver aberto e a tecla pressionada for a esc, o popup fecha
+      if (popup && keyIsEsc) onClose(); // se o popup estiver aberto e a tecla pressionada
+      // for a esc, o popup fecha
     };
 
-    document.addEventListener('keydown', handleEscClose); // adiciona o evento em document > escuta globalmente → essencial para capturar a tecla Esc mesmo sem foco
+    document.addEventListener('keydown', handleEscClose); // adiciona o evento em document >
+    // escuta globalmente → essencial para capturar a tecla Esc mesmo sem foco
 
     // Wipe function: função de limpeza
     return () => {
       document.removeEventListener('keydown', handleEscClose);
-      // remove o listener ao desmontar ou ao mudar dependências → evita múltiplas inscrições ou vazamentos
+      // remove o listener ao desmontar ou ao mudar dependências → evita múltiplas inscrições
+      // ou vazamentos
     };
   }, [popup, onClose]);
 

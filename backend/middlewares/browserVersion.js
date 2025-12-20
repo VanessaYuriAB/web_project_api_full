@@ -10,7 +10,8 @@ const supportedBrowsers = {
     updateUrl: 'https://support.apple.com/downloads/safari',
   },
   Opera: { minVersion: 100, updateUrl: 'https://www.opera.com/download' },
-  MSIE: { minVersion: Infinity, updateUrl: 'https://www.microsoft.com/edge' }, // IE  bloqueado
+  MSIE: { minVersion: Infinity, updateUrl: 'https://www.microsoft.com/edge' },
+  // IE  bloqueado
 };
 
 // Middleware global para verificar versão do navegador

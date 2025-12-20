@@ -41,7 +41,8 @@ function Main({
     <main className="content page__content">
       <section className="content__profile">
         <div className="profile__photo">
-          {/* caso o link da imagem não esteja mais acessível, onError trata informando o usuário e redefinindo para o padrão */}
+          {/* caso o link da imagem não esteja mais acessível, onError trata informando o
+          usuário e redefinindo para o padrão */}
           <img
             className="profile__img"
             src={currentUser.avatar}

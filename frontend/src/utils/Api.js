@@ -25,9 +25,13 @@ class Api {
   // Método (privado) para realizar requisições à API
   _makeRequest = async ({ endpoint, method, requestBody }) => {
     const options = {
-      headers: this._getHeaders(), // usa o headers dinâmico, já definindo a propriedade em tds as requisições que chamam _makeRequest,
+      headers: this._getHeaders(), // usa o headers dinâmico, já definindo a propriedade
+      // em tds as requisições que chamam _makeRequest
       method,
-      body: requestBody ? JSON.stringify(requestBody) : undefined, // adiciona e stringifica o corpo da requisição apenas se existir na requisição; se não, com a definição de undefined, o fetch ignora o body e a propriedade requestBody é completamente omitida do objeto options, não existindo na requisição
+      body: requestBody ? JSON.stringify(requestBody) : undefined, // adiciona e stringifica
+      // o corpo da requisição apenas se existir na requisição; se não, com a definição de
+      // undefined, o fetch ignora o body e a propriedade requestBody é completamente omitida
+      // do objeto options, não existindo na requisição
     };
 
     const res = await fetch(endpoint, options);
@@ -40,7 +44,8 @@ class Api {
       throw new Error(`Erro ${res.status}: ${res.statusText}`); // se o servidor
       // retornar um erro, lance o erro, a ser tratado na função de chamada do método
     } else {
-      const { data } = await res.json(); // // aguarda o parsing e desestrutura o objeto completo do backend
+      const { data } = await res.json(); // // aguarda o parsing e desestrutura o objeto
+      // completo do backend
       return data; // retorna apenas o objeto interno, com o conteúdo de cada requisição
     }
   };
@@ -68,7 +73,9 @@ class Api {
       });
     });
 
-    const result = await Promise.all(promises); // await aguarda tds as promisses para já devolver o resultado, quem chamar o método não precisa aguardar > Promise.all devolve, tbm, uma promisse que só resolve quando tds os cards do map forem enviados
+    const result = await Promise.all(promises); // await aguarda tds as promisses para já
+    // devolver o resultado, quem chamar o método não precisa aguardar > Promise.all devolve,
+    // tbm, uma promisse que só resolve quando tds os cards do map forem enviados
 
     return result; // retorna o array da Promisse já com as respostas
   };
@@ -149,7 +156,8 @@ class Api {
 
   // Captura cartões somente após carregar as informações do usuário no servidor
   getServerUserAndCards() {
-    return Promise.all([this._getUserInfo(), this._getCards()]); // quem chama o método, aguarda o resultado das promisses com await
+    return Promise.all([this._getUserInfo(), this._getCards()]); // quem chama o método,
+    // aguarda o resultado das promisses com await
   }
 }
 

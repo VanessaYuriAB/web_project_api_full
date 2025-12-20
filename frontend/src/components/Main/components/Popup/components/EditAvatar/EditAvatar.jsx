@@ -9,7 +9,8 @@ import { configPhoto } from '@utils/constants.js';
 import useFormSubmit from '@hooks/useFormSubmit.js';
 
 function EditAvatar({ handleClosePopup, popup }) {
-  // Ref para o input: não é necessário gerenciar o estado do input com useState e útil para evitar re-renderizações desnecessárias
+  // Ref para o input: não é necessário gerenciar o estado do input com useState e útil
+  // para evitar re-renderizações desnecessárias
   const avatarRef = useRef(null);
 
   // Contexto: obtém o usuário atual: assina o contexto CurrentUserContext

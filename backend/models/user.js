@@ -46,12 +46,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 8, // conforme está na msg de erro do input, no frontend
-    // sem definição de regex aqui, pq verificaria o hash da senha > regex definida no input, frontend, e na validação com celebrate
+    // sem definição de regex aqui, pq verificaria o hash da senha > regex definida no input,
+    // frontend, e na validação com celebrate
     select: false, // o hash de senha não será retornado do banco de dados por padrão
   },
 });
 
-// Método personalizado do Mongoose, definido na propriedade statics (estáticos) do esquema: encontre o usuário pelas credenciais
+// Método personalizado do Mongoose, definido na propriedade statics (estáticos) do esquema:
+// encontre o usuário pelas credenciais
 // Para uso no controlador de login
 userSchema.statics.findUserByCredentials = async function findUserByCredentials(
   email,
@@ -60,7 +62,8 @@ userSchema.statics.findUserByCredentials = async function findUserByCredentials(
   const userInDB = await this.findOne({ email })
     .select('+password')
     .orFail(() => {
-      // Retorna erro 401 pq o método é para verificação de permissão para login > intuito de não revelar se o e-mail existe ou não, por segurança
+      // Retorna erro 401 pq o método é para verificação de permissão para login > intuito de
+      // não revelar se o e-mail existe ou não, por segurança
       // Evita enumeration attacks (ataques que descobrem quais e-mails estão cadastrados)
       throw new UnauthorizedError('E-mail ou senha incorretos');
     });

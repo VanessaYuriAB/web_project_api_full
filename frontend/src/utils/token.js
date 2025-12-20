@@ -12,7 +12,7 @@ export const getToken = () => {
 };
 
 export const removeToken = (setTokenState) => {
-  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(TOKEN_KEY); // remove o token do localStorage
   if (setTokenState) {
     setTokenState(''); // limpa a variável de estado do token
   }

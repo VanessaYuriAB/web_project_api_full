@@ -16,7 +16,8 @@ const celebrateForAvatarUpdate = require('../middlewares/validators/users/celebr
 
 // Sem validação do celebrate pq não possuem params nem body
 usersRouter.get('/', getUsers);
-usersRouter.get('/me', getUser); // declarada antes de '/:id' para 'me' não ser interpretado como req.params e dar erro de Cast
+usersRouter.get('/me', getUser); // declarada antes de '/:id' para 'me' não ser interpretado
+// como req.params e dar erro de Cast
 
 // Com validação do celebrate
 usersRouter.get('/:userId', celebrateForUserId, getUserById);

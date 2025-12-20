@@ -11,7 +11,8 @@ import useFormSubmit from '@hooks/useFormSubmit.js';
 function EditProfile({ handleClosePopup }) {
   // Contexto: obtém o usuário atual: assina o contexto CurrentUserContext
   const userContext = useContext(CurrentUserContext); // extrai o contexto do usuário atual
-  const { currentUser, handleUpdateUser } = userContext; // extrai o usuário atual e a função de atualização do usuário do contexto
+  const { currentUser, handleUpdateUser } = userContext; // extrai o usuário atual e a
+  // função de atualização do usuário do contexto
 
   // Define o estado inicial dos campos do formulário com os valores do usuário atual,
   // garantindo que o formulário seja preenchido com as informações corretas quando aberto

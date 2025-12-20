@@ -2,7 +2,8 @@ import { useState } from 'react';
 
 /*
 
- Hook personalizado para gerenciar o envio de formulários com controle de estado e callbacks.
+ Hook personalizado para gerenciar o envio de formulários com controle de
+ estado e callbacks.
 
  onSubmit - Função principal de envio (geralmente uma requisição à API).
 

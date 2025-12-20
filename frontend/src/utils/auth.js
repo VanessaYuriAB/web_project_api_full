@@ -54,7 +54,8 @@ export const register = async (email, password) => {
     defaulMsg: errorMessages.register.default,
   });
 
-  throw new Error(message); // lança um erro com a mensagem tratada pelo getErrorMessageByStatus,
+  throw new Error(message); // lança um erro com a mensagem tratada pelo
+  // getErrorMessageByStatus,
   // específica para o contexto da resposta HTTP
 };
 

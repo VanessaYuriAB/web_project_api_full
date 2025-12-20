@@ -76,17 +76,10 @@ export default defineConfig([
       'react-hooks/rules-of-hooks': 'error', // garante uso correto de hooks
       'react-hooks/exhaustive-deps': 'warn', // avisa se dependências de hooks estão incompletas
 
-      // Configuração do Prettier: usePrettierrc: habilita o carregamento do arquivo
-      // de configuração do Prettier (padrão: true). Pode ser útil se você estiver usando
-      // várias ferramentas que entram em conflito entre si ou não quiser misturar suas
-      // configurações do ESLint com a configuração do Prettier
-      'prettier/prettier': [
-        'error',
-        {},
-        {
-          usePrettierrc: true, // usa as regras do .prettierrc
-        },
-      ], // aponta erro se o código não seguir as regras do Prettier (ex: indentação, aspas, vírgulas finais)
+      // Configuração do Prettier: habilita o carregamento do arquivo
+      // de configuração do Prettier Útil quando há ferramentas que entram em conflito entre si
+      'prettier/prettier': ['error'], // aponta erro se o código não seguir as regras do Prettier
+      // (ex: indentação, aspas, vírgulas finais)
 
       // Variáveis não usadas
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }], /// ignora constantes globais

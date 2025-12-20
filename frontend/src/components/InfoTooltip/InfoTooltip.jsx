@@ -13,23 +13,28 @@ function InfoTooltip(props) {
   // Desestruturação do objeto passado como props
   const { tooltip, isSuccess, onClose } = props;
 
-  // ref para encapsulamento do container do tooltip: para fechamento por clique na tela, fora do quadro em si
+  // ref para encapsulamento do container do tooltip: para fechamento por clique na tela,
+  // fora do quadro em si
   const containerRef = useRef(null);
 
   // Efeito colateral para fechamento do quadro pela tecla 'Esc'
   useEffect(() => {
     const handleEscClose = (evt) => {
-      const keyIsEsc = evt.code === 'Escape'; // valor de código para eventos de teclado (Windowns, Mac, Linux e Firefox para Android)
+      const keyIsEsc = evt.code === 'Escape'; // valor de código para eventos de teclado
+      // (Windowns, Mac, Linux e Firefox para Android)
 
-      if (tooltip && keyIsEsc) onClose(); // se o quadro estiver aberto e a tecla pressionada for a esc, o quadro fecha
+      if (tooltip && keyIsEsc) onClose(); // se o quadro estiver aberto e a tecla pressionada
+      // for a esc, o quadro fecha
     };
 
-    document.addEventListener('keydown', handleEscClose); // adiciona o evento em document > escuta globalmente → essencial para capturar a tecla Esc mesmo sem foco
+    document.addEventListener('keydown', handleEscClose); // adiciona o evento em document >
+    // escuta globalmente → essencial para capturar a tecla Esc mesmo sem foco
 
     // Wipe function: função de limpeza
     return () => {
       document.removeEventListener('keydown', handleEscClose);
-      // remove o listener ao desmontar ou ao mudar dependências → evita múltiplas inscrições ou vazamentos
+      // remove o listener ao desmontar ou ao mudar dependências → evita múltiplas inscrições
+      // ou vazamentos
     };
   }, [tooltip, onClose]);
 

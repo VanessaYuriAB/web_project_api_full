@@ -34,7 +34,9 @@ function App() {
 
   // Variável state para o token
   // Se ainda não existe, cai para '' (string vazia), evitando null ou undefined
-  // Se usar apenas '', o token só será carregado depois do useEffect, causando delay na renderização inicial e, desta forma, se houver token, a variável de estado já é setada inicialmente
+  // Se usar apenas '', o token só será carregado depois do useEffect, causando delay
+  // na renderização inicial e, desta forma, se houver token, a variável de estado
+  // já é setada inicialmente
   const [jwtToken, setJwtToken] = useState(getToken() || '');
 
   // Status de login
@@ -57,8 +59,10 @@ function App() {
 
   // Manipulador para logout
   const onSignOut = () => {
-    if (!loggedIn) return; // evita execução dupla, já que o efeito de montagem do app também chama esta função
-    removeToken(setJwtToken); // função utilitária: limpa token da variável de estado e remove do armazenamento local
+    if (!loggedIn) return; // evita execução dupla, já que o efeito de montagem do app
+    // também chama esta função
+    removeToken(setJwtToken); // função utilitária: limpa token da variável de estado
+    // e remove do armazenamento local
     setLoggedIn(false); // desabilita o login
     setEmailLogged(''); // limpa o estado de e-mail de usuário logado
     setCurrentUser({}); // limpa infos do estado para o perfil do usuário
@@ -75,7 +79,8 @@ function App() {
     let isMounted = true; // flag para verificar se o componente está montado:
     // evita setState após desmontar
 
-    // Verifica se há um JWT no armazenamento local, pela variável state que busca do localStorage
+    // Verifica se há um JWT no armazenamento local, pela variável state que busca do
+    // localStorage
     const jwt = jwtToken;
 
     // se não houver token, sai da função
@@ -237,7 +242,8 @@ function App() {
 
   // Depois que verificar, renderiza o app normalmente
   return (
-    // Provedores de contexto para compartilhar dados de login e dados do usuário atual com componentes filhos
+    // Provedores de contexto para compartilhar dados de login e dados do usuário atual
+    // com componentes filhos
     <AuthContext.Provider
       value={{
         loggedIn, // booleano de estado para status de login
