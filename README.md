@@ -994,6 +994,26 @@ const handleApiError = (errorMessage) => {
 };
 ```
 
+## 🔧 Estrutura do **README** e Organização da Documentação
+
+- Manter o `README` principal conciso, destacando informações essenciais como
+  tecnologias utilizadas e instruções de instalação.
+- Criar uma pasta `/docs` para separar responsabilidades e detalhar aspectos
+  específicos do projeto em arquivos dedicados, como:
+  - `nginx.md`
+  - `routes.md`
+- No `README` principal, adicionar links para esses arquivos, garantindo uma
+  navegação clara e separação de conceitos.
+
+## 🔧 **Documentação** de Requisições **com Ferramentas Adequadas**
+
+- Implementar a ferramenta `Swagger` para gerar documentação dinâmica e completa
+  das requisições, respostas e erros esperados, evitando documentar muitas
+  requisições diretamente no `README`, pois torna-se inviável em projetos
+  grandes em que podem existir milhares de endpoints.
+- Essa abordagem profissionaliza a documentação e facilita a manutenção à medida
+  que o projeto cresce.
+
 [Voltar ao topo 🔝](#top)
 
 ---
