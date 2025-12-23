@@ -590,13 +590,13 @@ cd backend && npm install
 cd ../frontend $$ npm install
 ```
 
-3. Inicie o back-end:
+3. Inicie o back-end (na pasta backend):
 
 ```shell
-npm run dev
+npm start
 ```
 
-4. Inicie o front-end:
+4. Inicie o front-end (na pasta frontend):
 
 ```shell
 npm run dev
