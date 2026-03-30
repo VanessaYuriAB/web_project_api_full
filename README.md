@@ -72,18 +72,17 @@
 
 # 📖 1. Descrição
 
-Este projeto é o sprint final do curso de Desenvolvimento Web Full-Stack da
-Triple Ten. Consiste na criação de uma aplicação web completa, com **front-end
-em React com Vite** e **back-end em Node.js com Express e Mongo DB** -
-conectados via **API REST**.
+Este projeto é o sprint final do curso de Desenvolvimento Web Full-Stack da Triple Ten.
+Consiste na criação de uma aplicação web completa, com **front-end em React com Vite** e
+**back-end em Node.js com Express e Mongo DB** - conectados via **API REST**.
 
-Inclui autenticação, autorização, tratamento centralizado de erros e implantação
-em um servidor na nuvem com `HTTPS`. Integra todas as funcionalidades
-desenvolvidas nos sprints anteriores, juntando o
-[projeto Express](https://github.com/VanessaYuriAB/web_project_around_express)
-das **sprints 15 e 16 para o back-end** e o
-[projeto Auth (React)](https://github.com/VanessaYuriAB/web_project_around_auth)
-das **sprints 13, 14 e 17 para o front-end**.
+Inclui autenticação, autorização, tratamento centralizado de erros e implantação em um
+servidor na nuvem com `HTTPS`. Integra todas as funcionalidades desenvolvidas nos sprints
+anteriores, juntando o
+[projeto Express](https://github.com/VanessaYuriAB/web_project_around_express) das
+**sprints 15 e 16 para o back-end** e o
+[projeto Auth (React)](https://github.com/VanessaYuriAB/web_project_around_auth) das
+**sprints 13, 14 e 17 para o front-end**.
 
 ➡️ **A aplicação permite:**
 
@@ -91,15 +90,15 @@ das **sprints 13, 14 e 17 para o front-end**.
 - Edição de perfil e avatar.
 - Criação, exclusão e curtidas em cartões.
 - Proteção das rotas com middleware de autorização.
-- Implantação completa com subdomínio, certificado SSL e integração entre
-  front-end e back-end.
+- Implantação completa com subdomínio, certificado SSL e integração entre front-end e
+  back-end.
 
-Segue uma **arquitetura `monorepo`**, com um **único diretório `.git`** na raiz
-e **dois subdiretórios** principais: `backend/` e `frontend/`, cada um com seu
-**próprio `package.json`** e **scripts independentes**.
+Segue uma **arquitetura `monorepo`**, com um **único diretório `.git`** na raiz e **dois
+subdiretórios** principais: `backend/` e `frontend/`, cada um com seu **próprio
+`package.json`** e **scripts independentes**.
 
-E foi implantado em um **servidor Linux na Google Cloud**, utilizando
-subdomínios configurados via `FreeDNS` e `Nginx` para roteamento.
+E foi implantado em um **servidor Linux na Google Cloud**, utilizando subdomínios
+configurados via `FreeDNS` e `Nginx` para roteamento.
 
 [Voltar ao topo 🔝](#top)
 
@@ -111,13 +110,13 @@ subdomínios configurados via `FreeDNS` e `Nginx` para roteamento.
 
 ## Registro e Login:
 
-Usuários podem se cadastrar com e-mail e senha, e fazer login, obtendo um token
-`JWT` válido por 7 dias. 🔐
+Usuários podem se cadastrar com e-mail e senha, e fazer login, obtendo um token `JWT`
+válido por 7 dias. 🔐
 
 ## Proteção de Rotas:
 
-Todas as rotas (exceto `/signin` e `/signup`) são protegidas por middleware que
-valida o token `JWT`. 🛡️
+Todas as rotas (exceto `/signin` e `/signup`) são protegidas por middleware que valida o
+token `JWT`. 🛡️
 
 📜 **Exemplo de código**
 
@@ -154,30 +153,30 @@ module.exports = (req, res, next) => {
 };
 ```
 
-📌 _Validação de configuração para garantir que `JWT_SECRET` esteja definido em
-produção, garantindo segurança._
+📌 _Validação de configuração para garantir que `JWT_SECRET` esteja definido em produção,
+garantindo segurança._
 
 📌 _Tratamento customizado de erros com classes personalizadas._
 
-📌 _Separação de responsabilidades, a validação básica de dados é feita pelo
-middleware `Celebrate` com `Joi`._
+📌 _Separação de responsabilidades, a validação básica de dados é feita pelo middleware
+`Celebrate` com `Joi`._
 
 ## Validação de Dados:
 
 Uso dos pacotes `Celebrate` (`Joi`) e `Validator` para validar entradas. ✅
 
 🧠 **Por que usar?**  
-Garante que os dados enviados pelo cliente estejam no formato correto antes de
-chegar à lógica da aplicação.
+Garante que os dados enviados pelo cliente estejam no formato correto antes de chegar à
+lógica da aplicação.
 
 ⚙️ **Como funciona?**  
-`Celebrate` + `Joi` para validar corpo da requisição. E `Validator` para URLs
-com regras mais estritas dos que as nativas do `Joi`.
+`Celebrate` + `Joi` para validar corpo da requisição. E `Validator` para URLs com regras
+mais estritas dos que as nativas do `Joi`.
 
 📜 **Exemplo de código → Celebrate (Joi)**
 
-Middleware de validação de dados de entrada para cadastro e login de usuários,
-com `Celebrate` + `Joi` (`middlewares/validators/celebrateForSignUpAndIn.js`):
+Middleware de validação de dados de entrada para cadastro e login de usuários, com
+`Celebrate` + `Joi` (`middlewares/validators/celebrateForSignUpAndIn.js`):
 
 ```JavaScript
 const { celebrate, Joi } = require('celebrate');
@@ -197,17 +196,16 @@ const celebrateForSignUpAndIn = celebrate({
 module.exports = celebrateForSignUpAndIn;
 ```
 
-📌 _Validação dos campos de `email` e `senha`, e permissão para outros campos
-não descritos no middleware._
+📌 _Validação dos campos de `email` e `senha`, e permissão para outros campos não
+descritos no middleware._
 
-📌 _Verificação de formato de senha com `regex` em `.pattern()`, exigindo que
-contenha, no mínimo, 8 caracteres e, pelo menos, uma letra minúscula e um
-dígito._
+📌 _Verificação de formato de senha com `regex` em `.pattern()`, exigindo que contenha, no
+mínimo, 8 caracteres e, pelo menos, uma letra minúscula e um dígito._
 
 📜 **Exemplo de código → validator.isURL**
 
-Middleware de validação personalizada para `Joi`, com o método `isURL` de
-`Validator` (`middlewares/validators/validateURL.js`):
+Middleware de validação personalizada para `Joi`, com o método `isURL` de `Validator`
+(`middlewares/validators/validateURL.js`):
 
 ```JavaScript
 const isURL = require('validator/lib/isURL');
@@ -222,33 +220,29 @@ const validateURL = (value, helpers) => {
 module.exports = validateURL;
 ```
 
-📌 _`string.uri` é o nome do validador padrão e o nome do código de erro que o
-método nativo gera, portanto foi usado para retornar o mesmo tipo de validação
-de erro._
+📌 _`string.uri` é o nome do validador padrão e o nome do código de erro que o método
+nativo gera, portanto foi usado para retornar o mesmo tipo de validação de erro._
 
-📌 _O middleware é usado em conjunto com `Joi` via `.custom(validateURL)`, em
-middlewares de validação `Celebrate` que possuem campos com **entradas no
-formato url**._
+📌 _O middleware é usado em conjunto com `Joi` via `.custom(validateURL)`, em middlewares
+de validação `Celebrate` que possuem campos com **entradas no formato url**._
 
 ## Banco de Dados:
 
-🗄️ **Produção:** utiliza `MongoDB Atlas` (banco de dados em nuvem), garantindo
-alta disponibilidade, escalabilidade e segurança.
+🗄️ **Produção:** utiliza `MongoDB Atlas` (banco de dados em nuvem), garantindo alta
+disponibilidade, escalabilidade e segurança.
 
-🗄️ **Desenvolvimento:** utiliza `MongoDB Compass` para gerenciar a instância
-local, permitindo testes e desenvolvimento offline.
+🗄️ **Desenvolvimento:** utiliza `MongoDB Compass` para gerenciar a instância local,
+permitindo testes e desenvolvimento offline.
 
 💡 **Por que usar essa abordagem?**
 
 - `Atlas` oferece backup automático e fácil integração com aplicações em nuvem.
-- `Compass` facilita visualização e manipulação dos dados durante o
-  desenvolvimento.
+- `Compass` facilita visualização e manipulação dos dados durante o desenvolvimento.
 
 ## Tratamento Centralizado de Erros:
 
-Middleware dedicado para lidar com erros e retornar respostas padronizadas com
-status adequados conforme classes personalizadas (400, 401, 403, 404, 409, 500).
-⚠️
+Middleware dedicado para lidar com erros e retornar respostas padronizadas com status
+adequados conforme classes personalizadas (400, 401, 403, 404, 409, 500). ⚠️
 
 📜**Exemplo de código**
 
@@ -279,24 +273,24 @@ app.use((err, req, res, next) => {
 });
 ```
 
-📌 _Verificação de erros de configuração de variáveis de ambiente (em produção)
-e erros de `Bad Request`._
+📌 _Verificação de erros de configuração de variáveis de ambiente (em produção) e erros de
+`Bad Request`._
 
-📌 _Fallback genérico para qualquer outro erro, com status `500` e mensagem
-padrão, evitando exposição de detalhes internos._
+📌 _Fallback genérico para qualquer outro erro, com status `500` e mensagem padrão,
+evitando exposição de detalhes internos._
 
-📌 _Respostas adequadas para requisições inválidas e padronização de formato
-consistente: `{ message: ... }`._
+📌 _Respostas adequadas para requisições inválidas e padronização de formato consistente:
+`{ message: ... }`._
 
 ## Logs:
 
-Registro de solicitações e erros em arquivos separados (`request.log` e
-`error.log`), utilizando os pacotes:
+Registro de solicitações e erros em arquivos separados (`request.log` e `error.log`),
+utilizando os pacotes:
 
 📝 `Winston` → para criação, gerenciamento e formatação dos logs.
 
-📝 `Express-winston` → para integração com o `Express`, registrando
-automaticamente requisições `HTTP` e erros.
+📝 `Express-winston` → para integração com o `Express`, registrando automaticamente
+requisições `HTTP` e erros.
 
 🧠 **Por que usar?**
 
@@ -308,33 +302,31 @@ Atualização de nome, descrição e avatar. 👤
 
 ## Gerenciamento de Cartões:
 
-Adição, exclusão e curtidas em cartões, garantindo que usuários não possam
-alterar dados de outros. 🖼️
+Adição, exclusão e curtidas em cartões, garantindo que usuários não possam alterar dados
+de outros. 🖼️
 
 ## Front-end React com Vite:
 
 🎨 Interface responsiva.
 
-🎨 Pop-ups para edição de perfil e avatar, também adição, confirmação de
-exclusão e visualização de fotos de cartões.
+🎨 Pop-ups para edição de perfil e avatar, também adição, confirmação de exclusão e
+visualização de fotos de cartões.
 
 🎨 Rotas protegidas com `ProtectedRoute`.
 
 ## Implantação Completa:
 
-API acessível via **subdomínio com `HTTPS`**, front-end integrado e `PM2` para
-recuperação automática em caso de falha. 🌍
+API acessível via **subdomínio com `HTTPS`**, front-end integrado e `PM2` para recuperação
+automática em caso de falha. 🌍
 
 📦 **Arquitetura `Monorepo`:**
 
 - Um único diretório `.git` na raiz do projeto.
 - Dois diretórios principais:
-  - `backend/` → código do servidor `Node.js` (`API REST`) com seu próprio
-    `package.json`.
-  - `frontend/` → código do cliente `React` com `Vite`, também com
-    `package.json` próprio.
-- Scripts independentes para desenvolvimento e build, mas versionados juntos
-  para integração contínua.
+  - `backend/` → código do servidor `Node.js` (`API REST`) com seu próprio `package.json`.
+  - `frontend/` → código do cliente `React` com `Vite`, também com `package.json` próprio.
+- Scripts independentes para desenvolvimento e build, mas versionados juntos para
+  integração contínua.
 
 ⚙️ **Configuração de Acesso:**
 
@@ -342,8 +334,8 @@ recuperação automática em caso de falha. 🌍
 - Proxy reverso com `NGINX` para:
   - Servir front-end e back-end sob o mesmo domínio.
   - Gerenciar certificados SSL (`HTTPS`) com `Certbot`.
-- Gerenciamento de processos com `PM2` para reinício automático em caso de falha
-  no servidor (backend).
+- Gerenciamento de processos com `PM2` para reinício automático em caso de falha no
+  servidor (backend).
 
 🧠 **Por que usar essa abordagem?**
 
@@ -421,16 +413,16 @@ server {
 
 📌 _Blocos:_
 
-- _para **API**: responsável por direcionar requisições para o **backend**
-  `Node.js` via proxy reverso._
-- _para o **front-end**: serve os arquivos estáticos do `React` (`SPA`) e
-  garante fallback para `index.html`._
+- _para **API**: responsável por direcionar requisições para o **backend** `Node.js` via
+  proxy reverso._
+- _para o **front-end**: serve os arquivos estáticos do `React` (`SPA`) e garante fallback
+  para `index.html`._
 - _do `Certbot`: redirecionamento `HTTP` → `HTTPS`, para garantir segurança._
 
 📜 **Exemplo de código → PM2**
 
-Gerenciamento de processos com `PM2`, configuração para iniciar e manter o
-**backend ativo** no servidor de **deploy**:
+Gerenciamento de processos com `PM2`, configuração para iniciar e manter o **backend
+ativo** no servidor de **deploy**:
 
 ```shell
 # Instala PM2 globalmente
@@ -453,11 +445,11 @@ pm2 status backend-full
 pm2 logs backend-full
 ```
 
-📌 _A configuração do `PM2` garante que o **backend reinicie automaticamente em
-caso de falha** e mantém o processo ativo após reinicialização do servidor._
+📌 _A configuração do `PM2` garante que o **backend reinicie automaticamente em caso de
+falha** e mantém o processo ativo após reinicialização do servidor._
 
-💡 Use `ecosystem.config.js` para gerenciar múltiplos processos (apps):
-backend + scripts de build do frontend.
+💡 Use `ecosystem.config.js` para gerenciar múltiplos processos (apps): backend + scripts
+de build do frontend.
 
 [Voltar ao topo 🔝](#top)
 
@@ -477,16 +469,16 @@ backend + scripts de build do frontend.
 - ✅ `Celebrate` + `Joi` para validação
 - 🔍 `Validator` para validação de e-mails e URLs
 - 🛡️ `Helmet` para segurança `HTTP`
-- 📏 `express-rate-limit` para limitar requisições (proteção contra ataques de
-  força bruta)
+- 📏 `express-rate-limit` para limitar requisições (proteção contra ataques de força
+  bruta)
 - 📝 `Winston` para logs
 - 📊 `express-winston` (logs avançados)
 - 🌱 `dotenv` para variáveis de ambiente
 - 🔄 `PM2` para gerenciamento de processos
 - 🔗 `CORS` para habilitar solicitações entre subdomínios
-- 🛠️ Classes de erros personalizadas para padronização de respostas e status
-  `HTTP` (`UnauthorizedError`, `ForbiddenError`, `NotFoundError`,
-  `ConflictError` e `ConfigError`)
+- 🛠️ Classes de erros personalizadas para padronização de respostas e status `HTTP`
+  (`UnauthorizedError`, `ForbiddenError`, `NotFoundError`, `ConflictError` e
+  `ConfigError`)
 
 **Front-end:**
 
@@ -615,9 +607,8 @@ npm run dev
   [`https://aroundtheusa.sevencomets.com`](https://www.aroundtheusa.sevencomets.com/)
 - **Subdomínio (API):** `https://api.aroundtheusa.sevencomets.com`
 
-📌 Os subdomínios foram configurados usando o serviço `FreeDNS` para apontar
-para o **IP público do servidor**, com `Nginx` gerenciando o roteamento entre
-front-end e back-end.
+📌 Os subdomínios foram configurados usando o serviço `FreeDNS` para apontar para o **IP
+público do servidor**, com `Nginx` gerenciando o roteamento entre front-end e back-end.
 
 [Voltar ao topo 🔝](#top)
 
@@ -672,8 +663,8 @@ front-end e back-end.
 
 ![Tela de Cadastro](./screenshots/1sign-up.png)
 
-_Interface para criação de conta, com campos de e-mail e senha, validada pelo
-middleware `Celebrate` + `Joi`._
+_Interface para criação de conta, com campos de e-mail e senha, validada pelo middleware
+`Celebrate` + `Joi`._
 
 - 2️⃣ Tela de Login
 
@@ -823,7 +814,7 @@ _Interface para confirmar remoção de um card._
 [`https://www.aroundtheusa.sevencomets.com`](https://www.aroundtheusa.sevencomets.com/)
 
 👉 **Vídeo demonstrativo no Loom:**
-[clique aqui](https://www.loom.com/share/24ff2fed3d2f4d3ca9c1f61e12fc68a4)
+[clique aqui](https://www.loom.com/share/69ea8b81b2354f37b0c2bba50594c32b)
 
 [Voltar ao topo 🔝](#top)
 
@@ -842,33 +833,32 @@ _Interface para confirmar remoção de um card._
   - Testes de solicitações `HTTP` (rotas e middlewares).
   - Testes de operações no banco de dados (`CRUD`).
 - **Integração contínua:**
-  - Configurar scripts automatizados no `package.json` para rodar testes antes
-    do deploy.
-  - Adicionar hooks do `Husky` para executar testes em cada commit ou push,
-    garantindo qualidade contínua.
+  - Configurar scripts automatizados no `package.json` para rodar testes antes do deploy.
+  - Adicionar hooks do `Husky` para executar testes em cada commit ou push, garantindo
+    qualidade contínua.
 
 ## 🔧 **Substituir alert() por Feedback Visual** Consistente
 
-- **Problema atual:** Ao atualizar imagens via link (avatar ou card), erros
-  `403` ocorrem quando o link não possui mais a imagem, e atualmente é exibido
-  um `alert()`, que quebra a experiência do usuário.
+- **Problema atual:** Ao atualizar imagens via link (avatar ou card), erros `403` ocorrem
+  quando o link não possui mais a imagem, e atualmente é exibido um `alert()`, que quebra
+  a experiência do usuário.
 - **Melhoria proposta:**
   - Remover o uso de `alert()` para mensagens de erro.
-  - Implementar componentes de feedback visual como tooltip ou toast para manter
-    a interface consistente e agradável.
-  - Exibir mensagens claras, como: "Não foi possível carregar a imagem.
-    Verifique o link e tente novamente."
+  - Implementar componentes de feedback visual como tooltip ou toast para manter a
+    interface consistente e agradável.
+  - Exibir mensagens claras, como: "Não foi possível carregar a imagem. Verifique o link e
+    tente novamente."
 
 ## 🔧 Gerenciar **Expiração do Token JWT no Front-end**
 
-- **Problema atual:** Se o usuário não fizer logout e o token expirar, ele
-  permanece no `localStorage` até que uma requisição falhe. Isso gera
-  inconsistência, pois o usuário acredita estar logado, mas não está.
+- **Problema atual:** Se o usuário não fizer logout e o token expirar, ele permanece no
+  `localStorage` até que uma requisição falhe. Isso gera inconsistência, pois o usuário
+  acredita estar logado, mas não está.
 - **Melhoria proposta:**
-  - Verificação proativa: Decodificar o `JWT` no front-end e checar o campo exp
-    antes de usar.
-  - Limpeza automática: Se `exp < Date.now() / 1000`, remover o token e
-    redirecionar para a tela de login.
+  - Verificação proativa: Decodificar o `JWT` no front-end e checar o campo exp antes de
+    usar.
+  - Limpeza automática: Se `exp < Date.now() / 1000`, remover o token e redirecionar para
+    a tela de login.
 - **Exemplo simples:**
 
 ```JavaScript
@@ -895,37 +885,31 @@ if (!jwt || isTokenExpired(jwt)) {
 
 ## 🔧 **Deploy Automático do Backend com PM2**
 
-- **Problema atual:** O deploy do backend é manual, exigindo acesso ao servidor
-  para atualizar código e reiniciar processos, o que aumenta risco de erro e
-  tempo de entrega.
-- **Melhoria proposta:** Implementar script automatizado para atualizar o código
-  do backend e reiniciar o processo com ``, garantindo zero downtime e maior
-  eficiência.
-- **Observação importante:** O procedimento não pode ser realizado via
-  `git pull`, pois o projeto é um `monorepo` com `.git` na raiz e, no servidor,
-  o front-end possui apenas a pasta `dist` (resultado do build).
+- **Problema atual:** O deploy do backend é manual, exigindo acesso ao servidor para
+  atualizar código e reiniciar processos, o que aumenta risco de erro e tempo de entrega.
+- **Melhoria proposta:** Implementar script automatizado para atualizar o código do
+  backend e reiniciar o processo com ``, garantindo zero downtime e maior eficiência.
+- **Observação importante:** O procedimento não pode ser realizado via `git pull`, pois o
+  projeto é um `monorepo` com `.git` na raiz e, no servidor, o front-end possui apenas a
+  pasta `dist` (resultado do build).
 
 ## 🔧 **Padronizar Tratamento de Erros no Frontend** (Classe `Api` + `auth.js`)
 
 - **Problema atual:** A `classe Api` já utiliza `try/catch` e lança erros via
-  `_checkResponse`, mas o tratamento final é genérico (`console.error`) nos
-  hooks dos componentes. Isso dificulta feedback claro para o usuário e
-  padronização da lógica.
+  `_checkResponse`, mas o tratamento final é genérico (`console.error`) nos hooks dos
+  componentes. Isso dificulta feedback claro para o usuário e padronização da lógica.
 - **Melhoria proposta:**
   1. Criar `errorHandler.js` com funções:
   - `mapError(status)` → retorna mensagem amigável baseada no código `HTTP`.
-  - `handleError(error)` → aplica lógica centralizada (ex.: log, exibição no
-    UI).
+  - `handleError(error)` → aplica lógica centralizada (ex.: log, exibição no UI).
   2. Refatorar `Classe Api`:
   - Integrar `mapError` e `handleError` no fluxo.
   - Remover lógica duplicada (`getErrorMessageByStatus` e `errorMessages`).
   3. Exemplo de integração com `auth.js`:
   - Substituir tratamento manual por chamada ao `handleError`.
   4. Sugestão para exibição no frontend:
-  - Usar `Toast` (ex.: `react-toastify`) ou `Modal` para feedback visual
-    consistente.
-  - Mensagens claras como: "Erro ao atualizar avatar. Verifique o link e tente
-    novamente."
+  - Usar `Toast` (ex.: `react-toastify`) ou `Modal` para feedback visual consistente.
+  - Mensagens claras como: "Erro ao atualizar avatar. Verifique o link e tente novamente."
 - **Exemplo de errorHandler.js:**
 
 ```JavaScript
@@ -996,23 +980,23 @@ const handleApiError = (errorMessage) => {
 
 ## 🔧 Estrutura do **README** e Organização da Documentação
 
-- Manter o `README` principal conciso, destacando informações essenciais como
-  tecnologias utilizadas e instruções de instalação.
-- Criar uma pasta `/docs` para separar responsabilidades e detalhar aspectos
-  específicos do projeto em arquivos dedicados, como:
+- Manter o `README` principal conciso, destacando informações essenciais como tecnologias
+  utilizadas e instruções de instalação.
+- Criar uma pasta `/docs` para separar responsabilidades e detalhar aspectos específicos
+  do projeto em arquivos dedicados, como:
   - `nginx.md`
   - `routes.md`
-- No `README` principal, adicionar links para esses arquivos, garantindo uma
-  navegação clara e separação de conceitos.
+- No `README` principal, adicionar links para esses arquivos, garantindo uma navegação
+  clara e separação de conceitos.
 
 ## 🔧 **Documentação** de Requisições **com Ferramentas Adequadas**
 
-- Implementar a ferramenta `Swagger` para gerar documentação dinâmica e completa
-  das requisições, respostas e erros esperados, evitando documentar muitas
-  requisições diretamente no `README`, pois torna-se inviável em projetos
-  grandes em que podem existir milhares de endpoints.
-- Essa abordagem profissionaliza a documentação e facilita a manutenção à medida
-  que o projeto cresce.
+- Implementar a ferramenta `Swagger` para gerar documentação dinâmica e completa das
+  requisições, respostas e erros esperados, evitando documentar muitas requisições
+  diretamente no `README`, pois torna-se inviável em projetos grandes em que podem existir
+  milhares de endpoints.
+- Essa abordagem profissionaliza a documentação e facilita a manutenção à medida que o
+  projeto cresce.
 
 [Voltar ao topo 🔝](#top)
 
