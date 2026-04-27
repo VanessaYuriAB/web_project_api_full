@@ -9,6 +9,8 @@ autenticação, autorização, persistência de dados, tratamento de erros e **d
 **ambiente cloud**, desenvolvido durante a **Sprint 18 (Autenticação Back-End)** do
 bootcamp de Desenvolvimento Web Full‑Stack da **TripleTen**.
 
+[![Deploy](https://img.shields.io/badge/Deploy-www.aroundtheusa.sevencomets.com-blue)](https://www.aroundtheusa.sevencomets.com/)
+
 ---
 
 ## 📌 Escopo do projeto
